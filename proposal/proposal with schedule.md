@@ -2,11 +2,11 @@
 
 ## Team Members
 
-- Alan Yu [azy7@g.ucla.edu](mailto:azy7@g.ucla.edu)
-- Chentyi Zhang [chriszhang09@g.ucla.edu](mailto:chriszhang09@g.ucla.edu)
-- Randy Gu [rgu855@163.com](mailto:rgu855@163.com)
-- Jin Zhang [jinzhang2001@g.ucla.edu](mailto:jinzhang2001@g.ucla.edu)
-- Hanry Xu [hanryxu@ucla.edu](mailto:hanryxu@ucla.edu)
+- Alan Yu [azy7@g.ucla.edu](mailto:azy7@g.ucla.edu) 505538781
+- Chentyi Zhang [chriszhang09@g.ucla.edu](mailto:chriszhang09@g.ucla.edu) 805582503
+- Randy Gu [rgu855@163.com](mailto:rgu855@163.com) 305592076
+- Jin Zhang [jinzhang2001@g.ucla.edu](mailto:jinzhang2001@g.ucla.edu) 405503937
+- Hanry Xu [hanryxu@ucla.edu](mailto:hanryxu@ucla.edu) 005583257
 
 ## Overall Idea:
 
