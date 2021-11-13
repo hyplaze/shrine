@@ -1,18 +1,15 @@
 {
-  "name": "server-app",
+  "name": "shrine_db",
   "version": "1.0.0",
-  "description": "node.js app server",
+  "description": "database for shrine project",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "randy, chris",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mysql2": "^2.3.2",
-    "sequelize": "^6.8.0"
+    "mysql": "^2.18.1"
   }
 }
