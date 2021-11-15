@@ -1,41 +1,29 @@
-const express = require('express')
-const mysql = require('mysql')
+//Import the mongoose module
+var mongoose = require('mongoose');
+const express = require('express');
+const user = require('./models/user');
+const website = require('./models/website');
+
+
+//Set up default mongoose connection
 
 const app = express();
 
-const db = mysql.createConnection({
-	host	:'localhost',
-	user	:'root',
-	password: 'shrine123456',
-	database: 'nodemysql'
-})
+mongoose.connect('mongodb://localhost/shrine_newdb',
+  {
+    useNewUrlParser: true,
+  }
+);
 
-db.connect((err) =>{
-	if(err){
-		throw err;
-	}
-	console.log('mySql Connected ...')
-})
+const db = mongoose.connection;
+db.on('error', (error) => console.error(error));
 
-app.get('/createdb', (req, res) => {
-	let sql = 'CREATE DATABASE IF NOT EXISTS nodemysql'
-	db.query(sql, (err, result) =>{
-		if(err) throw err;
-		console.log(result);
-		res.send('Database created ..')
-	})
+//Get the default connection
+
+//Bind connection to error event (to get notification of connection errors)
+db.once('open', () => console.log('Connected to Database'));
+
+app.listen(3000, () => 
+{
+    console.log('Server listening on 3000'); 
 });
-
-app.get('/createuserstable', (req, res) => {
-	let sql = 'CREATE TABLE users (id int AUTO_INCREMENT, username VARCHAR(255), password VARCHAR(255), PRIMARY KEY (id))';
-	db.query(sql, (err, result) => {
-		if (err)
-			throw err;	
-		console.log(result);
-		res.send('users table created...');
-	});
-});
-
-app.listen('3000', () =>{
-	console.log('Server started on port 3000');
-})
