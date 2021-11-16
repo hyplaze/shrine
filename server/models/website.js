@@ -8,7 +8,6 @@ const website = new mongoose.Schema({
     username: String,
     url: String,
     password: String,
-    university: String,
 
 })
 
