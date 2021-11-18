@@ -9,6 +9,6 @@ const website = new mongoose.Schema({
     url: String,
     password: String,
 
-})
+});
 
 module.exports = mongoose.model("website_model", website);
