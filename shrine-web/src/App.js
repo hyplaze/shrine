@@ -1,42 +1,23 @@
-import './App.css';
-import {useSelector} from "react-redux";
-import {useDispatch} from "react-redux";
-import {bindActionCreators} from "redux";
-import {actionCreators} from "./state/index";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-function App() {
-    const state = useSelector((state) => state.credential);
+import history from "./history";
 
-    const dispatch = useDispatch();
+import Login from "./Components/Login";
+import Signup from "./Components/Signup";
+import Shrine from "./Components/Shrine";
 
-    const {setEmail, generateCredential} = bindActionCreators(actionCreators, dispatch);
-
-    return (
-        <div className={"App"}>
-            <h1>Login</h1>
-            <form>
-                <label>
-                    Email:
-                    <input type="text" name="email"/>
-                </label>
-                <label>
-                    Password:
-                    <input type={'password'} name="password"/>
-                </label>
-                <input type="submit" value="Submit" onClick={(e) => {
-                    e.preventDefault();
-                    const email = document.getElementsByName('email')[0].value;
-                    const password = document.getElementsByName('password')[0].value;
-                    setEmail(email);
-                    generateCredential(state.email, password);
-                    // console.log("123", state.email, state.stretchedMasterKey, state.masterPasswordHash)
-                }}/>
-            </form>
-            <p>Email: {state.email}</p>
-            <p>stretchedMasterKey: {state.stretchedMasterKey}</p>
-            <p>masterPasswordHash: {state.masterPasswordHash}</p>
-        </div>
-    );
-}
+const App = () => (
+  <Router history={history}>
+    <div>
+      <Switch>
+        <Route exact path="/" component={() => <h1>Home page</h1>} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/shrine" component={Shrine} />
+        <Route component={() => <div>No such page!</div>} />
+      </Switch>
+    </div>
+  </Router>
+);
 
 export default App;
