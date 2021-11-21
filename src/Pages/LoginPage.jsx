@@ -1,4 +1,5 @@
 import { Component } from "react";
+import logo from "../Assets/logo.png"
 
 class LoginPage extends Component {
     render() {
@@ -6,7 +7,10 @@ class LoginPage extends Component {
             <div class="container min-vh-100 position-relative">
                 <div class="row position-absolute top-50 start-50 translate-middle">
                     <div class="col">
-                        <form>
+                        <div class="row">
+                            <img src={logo} class="h-50 w-50" alt="Responsive" />
+                        </div>
+                        <form>        
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">
                                     Email
@@ -30,7 +34,7 @@ class LoginPage extends Component {
                                     Sign Up
                                 </button>
                             </div>
-                            <a href="/" class="btn btn-outline-primary ms-5" role="button" aria-pressed="true">
+                            <a href="/" class="btn btn-outline-primary me-5" role="button" aria-pressed="true">
                                     Go Back
                                 </a>
                         </form>

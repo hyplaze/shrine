@@ -32,7 +32,7 @@ class MainPage extends Component {
                             Log In or Sign Up
                         </a>
                     </div>
-                </div>Ï
+                </div>
             </div>
         )
     }
