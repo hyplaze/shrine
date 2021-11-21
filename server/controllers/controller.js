@@ -7,16 +7,22 @@ exports.test = function (req,res){
 
 exports.register = async function (req, res){
   try{
-    var useracount = await user.findOne({"username": req.body.username},(err, userEvent) => {});
+    /* var useracount = user.findOne({"username": req.body.Email},(err, userEvent) => {});
+    console.log("passed await");
     if(useracount != null){
-      res.send(false);
-    }
-    else{
-      const newuser = new user(
-        req.body
-      );
-    }
-  }
+      res.send("not working bruh this account exists bruh"+false);
+    } */
+    //else{
+      console.log("attempting to create user\n");
+      const newuser = new user({
+        username : req.body.Email,
+        masterPassword : req.body.mph,
+        cookie : req.body.mph
+      });
+      newuser.save();
+      res.send(true);
+  //}
+}
   catch{
     res.send(false);
   }

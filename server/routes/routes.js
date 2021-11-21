@@ -5,7 +5,7 @@ const controller=require('../controllers/controller');
 
 router.get('/test',controller.test);
 
-router.get('/register',controller.register);
+router.post('/register',controller.register);
 
 router.get('/login',controller.login);
 
