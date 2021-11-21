@@ -7,12 +7,12 @@ exports.test = function (req,res){
 
 exports.register = async function (req, res){
   try{
-    /* var useracount = user.findOne({"username": req.body.Email},(err, userEvent) => {});
+    var useracount = await user.findOne({"username": req.body.Email});
     console.log("passed await");
     if(useracount != null){
       res.send("not working bruh this account exists bruh"+false);
-    } */
-    //else{
+    }   
+    else{
       console.log("attempting to create user\n");
       const newuser = new user({
         username : req.body.Email,
@@ -21,7 +21,7 @@ exports.register = async function (req, res){
       });
       newuser.save();
       res.send(true);
-  //}
+  }
 }
   catch{
     res.send(false);
@@ -30,16 +30,21 @@ exports.register = async function (req, res){
 
 exports.login = async function(req, res){
   try{
-      var useracount = await user.findOne({"username": req.query.username, "password": req.query.password}, (err, userEvent) => {});
+      var useracount = await user.findOne({"username": req.body.Email, "masterPassword": req.body.mph});
       if(useracount != null){
         //generate cookie
         res.send("successfully connected cookie");
       }
+      else{
+        res.send(false);
+      }
+
   }
   catch{
     res.send(false);
   }
 };
+
 
 exports.addbox = async function(req, res){
   try{
