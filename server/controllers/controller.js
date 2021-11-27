@@ -14,7 +14,8 @@ exports.register = async function (req, res){
     var useracount = await user.findOne({"username": req.body.Email});
     //console.log("passed await");
     if(useracount != null){
-      res.send("not working bruh this account exists "+false);
+      return res.json({Status: false,
+                       Error:"user email already exists"});
     }
     else{
       //console.log("attempting to create user\n");
@@ -24,11 +25,12 @@ exports.register = async function (req, res){
         cookie : req.body.mph
       });
       newuser.save();
-      res.json({Status: true});
+      return res.json({Status: true});
   }
 }
   catch{
-    res.json({Status: false});
+    return res.json({Status: false,
+                     Error:"unknown error" });
   }
 };
 
@@ -43,19 +45,21 @@ exports.login = async function(req, res){
           {expiresIn: "3h"}
         );
 
-        res.json({Status: true,
+        return res.json({Status: true,
                   cookie: token});
       }
       else{
         //console.log("cant find user");
-        res.json({Status: false,
-                  cookie: 0});
+        return res.json({Status: false,
+                  cookie: 0,
+                  Error:"username or password does not exist"});
       }
 
   }
   catch{
-    res.send({Status: false,
-              cookie: 0});
+    return res.send({Status: false,
+              cookie: 0,
+              Error:"unknown error"});
   }
 };
 
@@ -63,6 +67,10 @@ exports.login = async function(req, res){
 exports.addbox = async function(req, res){
   try{
     //console.log(req.body.cookie);
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
     var useracount = await user.findOne({"masterPassword": req.user});
     //console.log("passed await");
     if(useracount != null){
@@ -77,16 +85,18 @@ exports.addbox = async function(req, res){
         password: req.body.password
       });
       box.save();
-      res.json({Status: true,
+      return res.json({Status: true,
                 cookie: req.body.cookie});
     }
   else{
     //console.log("account doesn't exist");
-      res.json({Status: false});
+      return res.json({Status: false,
+                       Error: "user does not exist"});
     }
   }
   catch{
-    res.json({Status:false});
+    return res.json({Status:false,
+                     Error:"unknown error"});
   }
 };
 
