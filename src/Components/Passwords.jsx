@@ -53,11 +53,21 @@ class Passwords extends Component {
                                     Inspect
                                 </button>
                             </li>
-                            <ReactModal
-                                isOpen={this.state.showModal}
-                                contentLabel="Minimal Modal Example"
-                            >
-                                <button onClick={this.handleCloseModal}>Close Modal</button>
+                            <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example" >
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Inspection</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" onClick={this.handleCloseModal}>Close</button>
+                                            <button type="button" class="btn btn-primary" onClick={this.handleCloseModal}>Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </ReactModal>
                         </>
                     )
