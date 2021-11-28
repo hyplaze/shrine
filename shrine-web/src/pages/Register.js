@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+const axios = require('axios'); //this is for axios intelisense
 
 function App() {
 	const history = useHistory()
@@ -11,22 +12,23 @@ function App() {
 	async function registerUser(event) {
 		event.preventDefault()
 
-		const response = await fetch('http://localhost:1337/api/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				name,
-				email,
-				password,
-			}),
-		})
+		const response = await axios({
+			method: 'post',
+			url: 'http://localhost:3000/register',
+			data:{
+				Email: email,
+				mph: "adhfdfkajhwe" //later implemented
+			}
+			
+		  });
 
-		const data = await response.json()
+		const resData = response.data;
+		const resStatus = Boolean(resData.Status);
 
-		if (data.status === 'ok') {
-			history.push('/login')
+		console.log(response);
+
+		if (resStatus) {
+			history.push('/login');
 		}
 	}
 

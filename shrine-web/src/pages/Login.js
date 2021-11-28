@@ -13,8 +13,10 @@ function App() {
     const response = await axios({
       method: 'post',
       url: 'http://localhost:3000/login',
-      Email:email,
-      mph: "013413d" //later implemented
+      data:{
+        Email:email,
+        mph: "ajdfhalhe" //later implemented
+      }
     });
 
     const resData = response.data; //all the response data
