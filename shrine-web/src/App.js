@@ -1,23 +1,19 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
-import history from "./history";
-
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
-import Shrine from "./Components/Shrine";
-
-const App = () => (
-  <Router history={history}>
+const App = () => {
+  return (
     <div>
-      <Switch>
-        <Route exact path="/" component={() => <h1>Home page</h1>} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/shrine" component={Shrine} />
-        <Route component={() => <div>No such page!</div>} />
-      </Switch>
+      <BrowserRouter>
+        <Route path="/login" exact component={Login} />
+        <Route path="/register" exact component={Register} />
+        <Route path="/dashboard" exact component={Dashboard} />
+      </BrowserRouter>
     </div>
-  </Router>
-);
+  );
+};
 
 export default App;
