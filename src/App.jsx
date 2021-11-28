@@ -2,7 +2,6 @@ import { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 import "jquery"
-import "popper.js"
 import "./index.css"
 import "bootstrap/dist/js/bootstrap"
 import "bootstrap/dist/css/bootstrap.css"
