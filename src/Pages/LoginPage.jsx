@@ -4,13 +4,13 @@ import logo from "../Assets/logo.png"
 class LoginPage extends Component {
     render() {
         return (
-            <div class="container min-vh-100 position-relative">
-                <div class="row position-absolute top-50 start-50 translate-middle">
-                    <div class="col">
-                        <div class="row">
-                            <img src={logo} class="h-50 w-50" alt="Responsive" />
+            <div class="container min-vh-100">
+                <div class="row justify-content-center">
+                    <div class="col-4"> 
+                        <div class="row justify-content-center">
+                            <img src={logo} class="h-25 w-25" alt="Responsive" />
                         </div>
-                        <form>        
+                        <form>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">
                                     Email
@@ -26,17 +26,21 @@ class LoginPage extends Component {
                                 </label>
                                 <input type="password" class="form-control" id="exampleInputPassword1" />
                             </div>
-                            <div class="btn-group me-auto" role="group" aria-label="Basic outlined example">
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button type="submit" class="btn btn-outline-primary">
                                     Log In
                                 </button>
                                 <button type="submit" class="btn btn-outline-primary">
                                     Sign Up
                                 </button>
-                            </div>
-                            <a href="/" class="btn btn-outline-primary me-5" role="button" aria-pressed="true">
+                                <a href="/" class="btn btn-outline-primary" role="button" aria-pressed="true">
                                     Go Back
                                 </a>
+                                <a href="/home" class="btn btn-outline-primary" role="button" aria-pressed="true">
+                                    Home
+                                </a>
+                            </div>
+
                         </form>
                     </div>
                 </div>
