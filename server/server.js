@@ -1,6 +1,7 @@
 //Import the mongoose module
 var mongoose = require('mongoose');
 const express = require('express');
+const cors=require('cors');
 const user = require('./models/user');
 const website = require('./models/website');
 const routes = require('./routes/routes');
@@ -8,6 +9,7 @@ const bodyParser = require('body-parser');
 //Set up default mongoose connection
 
 const app = express();
+app.use(cors());
 
 //online remote database: mlab
 const db_url = 'mongodb+srv://randygu:water123@shrinedb.jedf9.mongodb.net/shrineDB?retryWrites=true&w=majority';
