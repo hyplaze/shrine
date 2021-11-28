@@ -5,7 +5,7 @@ class LoginPage extends Component {
     render() {
         return (
             <div class="container min-vh-100">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" style={{paddingTop: "150px"}}>
                     <div class="col-4"> 
                         <div class="row justify-content-center">
                             <img src={logo} class="h-25 w-25" alt="Responsive" />

@@ -12,12 +12,14 @@ class Passwords extends Component {
                     url: "www.pornhub.com",
                     usr: "Paul Eggert",
                     pwd: 12345678,
+                    notes: ""
                 },
                 {
                     website: "Github",
                     url: "www.github.com",
                     usr: "Paul Eggert",
                     pwd: 12345678,
+                    notes: ""
                 }
             ],
             showModal: false
@@ -60,7 +62,28 @@ class Passwords extends Component {
                                             <h5 class="modal-title" id="exampleModalLabel">Inspection</h5>
                                         </div>
                                         <div class="modal-body">
-                                            ...
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Website Alias</label>
+                                                    <input type="text" class="form-control" id="recipient-name"></input>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">URL</label>
+                                                    <input type="text" class="form-control" id="recipient-name"></input>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Username</label>
+                                                    <input type="text" class="form-control" id="recipient-name"></input>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label">Password</label>
+                                                    <input type="password" class="form-control" id="recipient-name"></input>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label">Notes</label>
+                                                    <textarea class="form-control" id="message-text"></textarea>
+                                                </div>
+                                            </form>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" onClick={this.handleCloseModal}>Close</button>

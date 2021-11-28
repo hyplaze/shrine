@@ -10,6 +10,7 @@ class HomePage extends Component {
                     <NavBar page="HomePage" />
                 </div>
                 <div class="row">
+                    
                     <Passwords />
                 </div>
             </div>
