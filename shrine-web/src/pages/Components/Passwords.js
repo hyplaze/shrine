@@ -7,6 +7,7 @@ export default class Passwords extends Component {
     this.state = {
       entries: [
         {
+          id: "1",
           website: "Pornhub",
           url: "www.pornhub.com",
           usr: "Paul Eggert",
@@ -14,6 +15,7 @@ export default class Passwords extends Component {
           notes: "",
         },
         {
+          id: "2",
           website: "Github",
           url: "www.github.com",
           usr: "Paul Eggert",
@@ -22,18 +24,171 @@ export default class Passwords extends Component {
         },
       ],
       showModal: false,
+      entryInModal: {
+        id: "",
+        website: "",
+        url: "",
+        usr: "",
+        pwd: "",
+        notes: "",
+      },
     };
-
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleSaveAndCloseModal = this.handleSaveAndCloseModal.bind(this);
   }
 
-  handleOpenModal() {
+  handleOpenModal(entry) {
+    this.setState({ entryInModal: entry });
     this.setState({ showModal: true });
   }
 
-  handleCloseModal() {
+  handleSaveAndCloseModal() {
+    const newEntries = this.state.entries.map((entry) => {
+      if (entry.id === this.state.entryInModal.id) {
+        return this.state.entryInModal;
+      } else {
+        return entry;
+      }
+    });
+    this.setState({ entries: newEntries });
+    this.setState({ entryInModal: {} });
     this.setState({ showModal: false });
+  }
+
+  handleCloseModal() {
+    this.setState({ entryInModal: {} });
+    this.setState({ showModal: false });
+  }
+
+  modalInPage() {
+    return (
+      <ReactModal isOpen={this.state.showModal}>
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Make changes to a password entry
+              </h5>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          website: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.website}
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">
+                    URL
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          url: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.url}
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          usr: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.usr}
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">
+                    password
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          pwd: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.pwd}
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">
+                    Notes
+                  </label>
+                  <textarea
+                    class="form-control"
+                    id="message-text"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          notes: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.notes}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onClick={this.handleCloseModal}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={this.handleSaveAndCloseModal}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </ReactModal>
+    );
   }
 
   render() {
@@ -48,7 +203,9 @@ export default class Passwords extends Component {
                     <button
                       type="button"
                       class="list-group-item list-group-item-action"
-                      onClick={this.handleOpenModal}
+                      onClick={() => {
+                        this.handleOpenModal(entry);
+                      }}
                     >
                       <div class="ms-2 me-auto">
                         <div class="fw-bold">{entry.website}</div>
@@ -68,86 +225,7 @@ export default class Passwords extends Component {
               </div>
 
               {/* This is a modal; Popping up only when making changes to a password entry. */}
-              <ReactModal isOpen={this.state.showModal}>
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
-                        Make changes to a password entry
-                      </h5>
-                    </div>
-                    <div class="modal-body">
-                      <form>
-                        <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">
-                            Website Alias
-                          </label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="recipient-name"
-                          ></input>
-                        </div>
-                        <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">
-                            URL
-                          </label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="recipient-name"
-                          ></input>
-                        </div>
-                        <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">
-                            Username
-                          </label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="recipient-name"
-                          ></input>
-                        </div>
-                        <div class="form-group">
-                          <label for="recipient-name" class="col-form-label">
-                            Password
-                          </label>
-                          <input
-                            type="password"
-                            class="form-control"
-                            id="recipient-name"
-                          ></input>
-                        </div>
-                        <div class="form-group">
-                          <label for="message-text" class="col-form-label">
-                            Notes
-                          </label>
-                          <textarea
-                            class="form-control"
-                            id="message-text"
-                          ></textarea>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        onClick={this.handleCloseModal}
-                      >
-                        Close
-                      </button>
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        onClick={this.handleCloseModal}
-                      >
-                        Save changes
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </ReactModal>
+              {this.modalInPage()}
             </>
           );
         })}
