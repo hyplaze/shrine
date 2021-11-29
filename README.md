@@ -4,21 +4,13 @@
     <h1 align="center">Shrine</h1>
 </p>
 
->We have builded a visible temple; 
+>We have builded a visible temple; we have set us a tangible sign.
 >
->We have set us a tangible sign.
+>For a symbol of that truer temple; a mark of that holier shrine.
 >
->For a symbol of that truer temple;
+>And nought of war's long tarnished story; dwells there, not of pride nor of pain.
 >
->A mark of that holier shrine.
->
->And nought of war's long tarnished story;
->
->Dwells there, not of pride nor of pain.
->
->But all that remains of their glory;
->
->Who died not in vain.
+>But all that remains of their glory; who died not in vain.
 >
 >*Clarence Michael James Stanislaus Dennis, The Shrine*
 
