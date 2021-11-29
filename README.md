@@ -1,6 +1,8 @@
 
-<img src="./src/Assets/logo.png" style="margin: 0 auto; display: block;" width="150" height="150" /> 
-<h1 style="text-align: center" >Shrine</h1>
+<p align="center">
+    <img src="./src/Assets/logo.png"  width="130" height="130" >
+    <h1 align="center">Shrine</h1>
+</p>
 
 >We have builded a visible temple; 
 >
