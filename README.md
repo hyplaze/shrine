@@ -3,7 +3,23 @@
     <img src="./src/Assets/logo.png"  width="130" height="130" >
     <h1 align="center">Shrine</h1>
 </p>
-
+<p align="center">
+    <a href="https://github.com/badges/shields/generate">
+         <img src="https://img.shields.io/badge/hyplaze-shrine-informational?logo=github">
+    </a>
+    <a href="https://github.com/badges/shields/generate">
+        <img src="https://img.shields.io/badge/npm-8.1.3-informational">
+    </a>
+    <a href="https://github.com/badges/shields/generate">
+        <img src="https://img.shields.io/badge/hair-loss-red">
+    </a>
+    <a href="https://github.com/badges/shields/generate">
+        <img src="https://img.shields.io/badge/status-ptsd-red">
+    </a>
+    <a href="https://github.com/badges/shields/generate">
+        <img src="https://img.shields.io/badge/build-suceess-success">
+    </a>
+</p>
 >We have builded a visible temple; we have set us a tangible sign.
 >
 >For a symbol of that truer temple; a mark of that holier shrine.
@@ -16,18 +32,14 @@
 
 ## Introduction
 
-Shrine is a web-based application that helps clients safely store and retrieve passwords with ease. With a elegant user interface, secure encoding and decoding methods, reliable server calls, as well as rich features, clients may experience password management in a whole new way.
+Shrine is a web-based application that helps clients safely store and retrieve passwords with ease. With an elegant user interface, secure encoding and decoding methods, reliable server calls. Integrated with other rich features, shrine enables clients to enjoy password management.
 
 ## Features
 
 - Username and passwords provided by users will be saved in the server database.
-
 - Added username and passwords will be displayed on the website, avaiable for viewing, copying, and editing.
-
 - Users may search for website name or username to retrieve certain passwords.
-
 - Aside from the basic website name, username, and password, store two factor autehtication (TOTP and HOTP) keys and dynamically generate dynamic codes.
-
 - Provide a random password generator to create stronger and safer passwords.
 
 - Notify users of repeated and unsafe (breached) passwords.
