@@ -2,7 +2,7 @@ import { Component } from "react";
 import ReactModal from 'react-modal';
 
 export default
-    class Passwords extends Component {
+class Passwords extends Component {
     constructor(props) {
         super(props)
         this.state = {

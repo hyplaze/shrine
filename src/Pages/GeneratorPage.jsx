@@ -3,8 +3,6 @@ import NavBar from "../Components/NavBar";
 import QuickGeneration from "../Components/QuickGeneration";
 import CustomizeGeneration from "../Components/CustomizeGeneration";
 
-
-
 export default
     class GeneratorPage extends Component {
 
