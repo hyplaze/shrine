@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const config = require('../config.js');
 const key = fs.readFileSync(__dirname + '/../config/private.key','utf8');
-
+const blacklist = [];
 exports.test = function (req,res){
   res.send("吸我的大牛子");
 };
@@ -16,7 +16,8 @@ exports.register = async function (req, res){
 
     //res.send(useracount.username);
     if(useracount != null){
-      res.send("not working bruh this account exists "+false);
+      return res.json({Status: false,
+                       Error:"user email already exists"});
     }
     else{
       //console.log("attempting to create user\n");
@@ -26,11 +27,11 @@ exports.register = async function (req, res){
         cookie : req.body.mph
       });
       newuser.save();
-      res.json({Status: true});
+      return res.json({Status: true});
   }
 }
   catch{
-    res.json({Status: false});
+    return res.json({Status: false, Error:"unkown error"});
   }
 };
 
@@ -45,19 +46,21 @@ exports.login = async function(req, res){
           {expiresIn: "3h"}
         );
 
-        res.json({Status: true,
+        return res.json({Status: true,
                   cookie: token});
       }
       else{
         //console.log("cant find user");
-        res.json({Status: false,
-                  cookie: 0});
+        return res.json({Status: false,
+                  cookie: 0,
+                  Error:"username or password does not exist"});
       }
 
   }
   catch{
-    res.send({Status: false,
-              cookie: 0});
+    return res.json({Status: false,
+              cookie: 0,
+              Error:"unknown error"});
   }
 };
 
@@ -65,6 +68,14 @@ exports.login = async function(req, res){
 exports.addbox = async function(req, res){
   try{
     //console.log(req.body.cookie);
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
     var useracount = await user.findOne({"masterPassword": req.user});
     //console.log("passed await");
     if(useracount != null){
@@ -79,16 +90,17 @@ exports.addbox = async function(req, res){
         password: req.body.password
       });
       box.save();
-      res.json({Status: true,
+      return res.json({Status: true,
                 cookie: req.body.cookie});
     }
   else{
     //console.log("account doesn't exist");
-      res.json({Status: false});
+      return res.json({Status: false,
+                Error: "user does not exist"});
     }
   }
   catch{
-    res.json({Status:false});
+    return res.json({Status:false, Error:"unknown error"});
   }
 };
 
@@ -96,35 +108,54 @@ exports.addbox = async function(req, res){
 
 exports.changebox = async function(req, res){
   try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
     var useracount = await user.findOne({"cookie": req.user});
     if(useracount != null){
-      var box = await website.findOne({"masterPassword": req.user, "boxid":req.body.boxid});
+      var box = await website.findOne({"MasterUser": req.user, "boxid":req.body.boxid});
     }
     else{
-      res.json({Status:false});
+      return res.json({Status:false,Error: "user does not exist"});
     }
     if(box != null){
-      box = await website.findOneAndUpdate({"masterPassword": req.user, "boxid":req.body.boxid},
+      box = await website.findOneAndUpdate({"MasterUser": req.user, "boxid":req.body.boxid},
                                            {"MasterUser": req.user,"boxid":req.body.boxid, "username":req.body.username,
-                                            "boxname": req.body.boxname, "url": req.body.url, "twoFA": req.body.twoFA, 
+                                            "boxname": req.body.boxname, "url": req.body.url, "twoFA": req.body.twoFA,
                                             "password": req.body.password});
-      box.save();
-      res.json({Status: true});
+      //box.save();
+      return res.json({Status: true});
     }
     else{
-      res.json({Status:false});
+      return res.json({Status:false,Error:"user box does not exist"});
     }
   }
   catch{
-    res.json({Status:false});
+    return res.json({Status:false,Error:"unknown error"});
   }
 };
 
 exports.getbox = async function(req, res){
   try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
     var useracount = await user.findOne({"masterPassword": req.user});
     if(useracount != null){
       var userbox = await website.findOne({"MasterUser": req.user, "boxid": req.body.boxid});
+    }
+    else{
+      return res.json({Status:false,Error: "user does not exist"});
     }
     if(userbox != null){
       res.json({Status: true,
@@ -135,45 +166,82 @@ exports.getbox = async function(req, res){
                 });
     }
     else{
-      res.json({Status: false});
+      return res.json({Status: false,Error: "user box does not exist"});
     }
   }
   catch{
-    res.json({Status:false});
+    return res.json({Status:false,Error:"unknown error"});
   }
 };
 
 exports.basicrequest = async function(req, res){
   try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
     var useracount = await user.findOne({"masterPassword": req.user});
     if(useracount != null){
       var userbox = await website.find({"MasterUser": req.user});
       res.json(userbox);
-    } 
+    }
     else{
-      res.send({Status: false});
+      return res.json({Status: false,Error: "user does not exist"});
     }
   }
   catch{
-    res.send({Status: false});  
+    return res.json({Status: false,Error:"unknown error"});
   }
-}
+};
 
 exports.deletebox = async function(req, res){
   try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
     var useracount = await user.findOne({"masterPassword": req.user});
-    console.log(useracount);
-    var userbox = await website.findOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
-    if(userbox != null){
-       website.deleteOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
-      res.send({Status: true});
+    if(useracount != null){
+      var userbox = await website.findOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
     }
     else{
-      res.send({Status: false});
-    } 
-  }
-      catch{
-      res.send({Status: false});
+      return res.json({Status: false,Error: "user does not exist"});
     }
-}
+    if(userbox != null){
+       userbox = await website.deleteOne({"MasterUser": req.user, "boxid": req.body.boxid});
+      return res.json({Status: true});
+    }
+    else{
+      return res.json({Status: false,Error: "user box does not exist"});
+    }
+  }
+  catch{
+      return res.json({Status: false,Error:"unknown error"});
+    }
+};
 
+exports.logout = async function(req, res){
+  try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out"});
+    }
+    blacklist.push(req.body.cookie);
+    return res.json({Status:true});
+  }
+  catch{
+    return res.json({Status: false,Error:"unknown error"});
+  }
+};
