@@ -1,21 +1,16 @@
 import { Component } from "react";
 import NavBar from "../Components/NavBar";
-const generator = require('generate-password');
+import QuickGeneration from "../Components/QuickGeneration";
+import CustomizeGeneration from "../Components/CustomizeGeneration";
 
 
 
 export default
-class GeneratorPage extends Component {
+    class GeneratorPage extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            password: generator.generate({
-                length: 10,
-                numbers: true,
-                symbols: true,
-            })
-        }
+        this.state = { window: "QuickGeneration" }
     }
 
 
@@ -45,30 +40,41 @@ class GeneratorPage extends Component {
     //could implement a copy function.
 
     render() {
+
+        let generatorContent = this.state.window === "QuickGeneration" ? <QuickGeneration /> : <CustomizeGeneration />
+
         return (
             <div class="container-fluid">
                 <div class="row">
                     <NavBar page="GeneratorPage" />
                 </div>
-                <div class="text-center" style={{ paddingTop: "50px" }}>
-                    <a class="btn btn-primary" href="#" role="button"
-                        onClick={() => this.setState({
-                            password: generator.generate({
-                                length: 10,
-                                numbers: true,
-                                symbols: "_",
-                                strict: true
-                            })
-                        })}>Generate</a>
-                    <p class="d-inline-block" style={{ paddingLeft: "10px" }}>Generate mathematically proven safe passwords with just one click.</p>
-                    <p>
-                        // To be implemented.
-                    </p>
-                    <div>PASSWORD IS: {this.state.password}</div>
+                <div class="row" style={{ marginTop: "1%" }}>
+
+                    <div class="col-3">
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action" onClick={
+                                () => this.setState({ window: "QuickGeneration" })
+                            }>
+                                Quick Generation
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action" onClick={
+                                () => this.setState({ window: "CustomizeGeneration" })
+                            }>
+                                Customize
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-9">
+                        {generatorContent}
+                    </div>
                 </div>
+
+
             </div>
 
         )
     }
 }
+
 

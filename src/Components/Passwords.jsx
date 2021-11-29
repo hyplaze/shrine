@@ -44,10 +44,6 @@ export default
                 {this.state.entries.map((entry) => {
                     return (
                         <>
-                            {/* <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <
-                                
-                            </li> */}
                             <div class="row">
                                 <div class="col-10">
                                     <div class="list-group">
@@ -61,7 +57,7 @@ export default
                                         </button>
                                     </div>
                                 </div>
-                                <div class="col-2" style={{paddingTop: "1%", paddingLeft: "2%"}}>
+                                <div class="col-2" style={{ paddingTop: "1%", paddingLeft: "2%" }}>
                                     <button type="button" class="btn btn-outline-danger">
                                         Delete
                                     </button>

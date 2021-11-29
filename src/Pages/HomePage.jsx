@@ -14,7 +14,7 @@ export default
                 <div class="row" style={{ marginTop: "1%" }}>
                     <div class="col-3">
                         <div class="list-group">
-                            <button type="button" class="list-group-item btn btn-outline-primary" aria-current="true">
+                            <button class="list-group-item btn btn-outline-primary" aria-current="true">
                                 Add a new Password
                             </button>
                             <form class="d-flex" style={{ marginTop: "2%" }}>
