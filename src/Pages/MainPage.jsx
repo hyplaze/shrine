@@ -5,12 +5,12 @@ export default
 class MainPage extends Component {
     render() {
         return (
-            <div class="container-fluid min-vh-100 position-relative">
-                <div class="row position-absolute top-50 start-50 translate-middle">
-                    <div class="col">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-3 " style={{ paddingTop: "14%" }}>
                         <img src={logo} class="img-fluid d-flex" alt="Responsive" />
                     </div>
-                    <div class="col text-center">
+                    <div class="col-3 text-center" style={{ paddingTop: "16%" }}>
                         <h1 class="display-1 mt-4">
                             Shrine
                         </h1>
