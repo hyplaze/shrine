@@ -7,6 +7,7 @@ class NavBar extends Component {
     super(props);
     this.state = {
       page: props.page,
+      logoutHandler: props.logoutHandler,
     };
   }
   render() {
@@ -74,9 +75,16 @@ class NavBar extends Component {
                     <hr class="dropdown-divider" />
                   </li>
                   <li>
-                    <a class="dropdown-item" href="/">
+                    <button
+                      class="dropdown-item"
+                      onClick={() => {
+                        this.state.logoutHandler(
+                          localStorage.getItem("cookie")
+                        );
+                      }}
+                    >
                       Log out
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </li>

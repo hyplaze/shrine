@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 //const axios = require('axios'); //this is for axios intellisense
-import axios from "./../axios/axiosConfig";
+import axios from "../axios/axiosConfig";
 
 import logo from "./../Assets/logo.png";
 import { genCredential } from "../crypto/credential";
