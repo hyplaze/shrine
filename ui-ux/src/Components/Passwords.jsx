@@ -1,5 +1,6 @@
 import { Component } from "react";
 import AddPasswordModal from "./AddPasswordModal.jsx"
+import InspectModal from "./InspectModal.jsx";
 
 export default
     class Passwords extends Component {
@@ -46,14 +47,7 @@ export default
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="list-group">
-                                                <button class="list-group-item list-group-item-action" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover">
-                                                    <div class="ms-2 me-auto">
-                                                        <div class="fw-bold">
-                                                            {entry.website}
-                                                        </div>
-                                                        {entry.url}
-                                                    </div>
-                                                </button>
+                                                <InspectModal website={entry.website} url={entry.url} usr={entry.user} pwd={entry.pwd} notes={entry.notes}/>
                                             </div>
                                         </div>
                                         <div class="col-2" style={{ paddingTop: "1%", paddingLeft: "2%" }}>
