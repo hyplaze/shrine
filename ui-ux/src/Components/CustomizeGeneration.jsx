@@ -7,32 +7,38 @@ export default
     constructor(props) {
         super(props)
         this.state = {
-            p_length:10,
+            p_length: 10,
             p_numbers: false,
             p_symbols: false,
             p_uppercase: false,
-            p_strict:false,
-
-            password: generator.generate({ 
-                length: 10, 
-                numbers: false, 
-                symbols: false,
-                uppercase: false,
-                strict: false })
+            p_strict: false,
+            password: "Click here to generate."
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-      handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
         this.setState({
             [name]: value
-          });
+        })
 
-      }
+    }
+
+    generate = () => {
+        this.setState({
+            password: generator.generate({
+                length: this.state.p_length,
+                numbers: this.state.p_numbers,
+                symbols: this.state.p_symbols,
+                strict: this.state.p_strict,
+                uppercase: this.state.p_uppercase
+            })
+        })
+    }
 
     render() {
         return (
@@ -42,45 +48,40 @@ export default
                         <h6>Customize password generation.</h6>
                         Please specify password length and other requirements, then click the area below to start generation.
                     </div>
-
-                    <p style={{ padding: "1%" }}> Length: {this.state.p_length}  </p>
-                    <input type="range" class="form-range" min="4" max="18" id="p_length" 
-                    value={this.state.p_length} onChange={this.handleInputChange} name="p_length"/>
-                    <form>
+                    <div class="row" style={{ paddingLeft: "2.2%", paddingTop: "1.4%" }}>
+                        <div class="col-2">
+                            Length: {this.state.p_length}
+                        </div>
+                        <div class="col-4">
+                            <input type="range" display="inline" class="form-range" min="4" max="18" id="p_length"
+                                value={this.state.p_length} onChange={this.handleInputChange} name="p_length" />
+                        </div>
+                    </div>
+                    <form style={{ padding: "2%", marginTop: "-1.3%" }}>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="uppercase" 
-                            checked={this.state.password.uppercase} onChange={this.handleInputChange} name="p_uppercase"/>
+                            <input class="form-check-input" type="checkbox" id="uppercase"
+                                checked={this.state.p_uppercase} onChange={this.handleInputChange} name="p_uppercase" />
                             <label class="form-check-label" for="uppercase">With uppercase letters</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="number" 
-                            checked={this.state.password.numbers} onChange={this.handleInputChange} name="p_numbers" />
+                            <input class="form-check-input" type="checkbox" id="number"
+                                checked={this.state.p_numbers} onChange={this.handleInputChange} name="p_numbers" />
                             <label class="form-check-label" for="number">With Numbers</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="symbol" 
-                            checked={this.state.password.symbols} onChange={this.handleInputChange} name="p_symbols"/>
+                            <input class="form-check-input" type="checkbox" id="symbol"
+                                checked={this.state.p_symbols} onChange={this.handleInputChange} name="p_symbols" />
                             <label class="form-check-label" for="symbol">With Symbol</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="strict" 
-                            checked={this.state.password.strict} onChange={this.handleInputChange} name="p_strict"/>
+                            <input class="form-check-input" type="checkbox" id="strict"
+                                checked={this.state.p_strict} onChange={this.handleInputChange} name="p_strict" />
                             <label class="form-check-label" for="strict">Use strict method</label>
                         </div>
                     </form>
-                    <button type="button card" class="list-group-item list-group-item-action" onClick={() => this.setState({
-                        password: generator.generate({
-                            length: this.state.p_length,
-                            numbers: this.state.p_numbers,
-                            symbols: this.state.p_symbols,
-                            strict: this.state.p_strict,
-                            uppercase: this.state.p_uppercase
-                        })
-                    })}>
+                    <button type="button card" class="list-group-item list-group-item-action" style={{ marginTop: "-1%" }} onClick={this.generate}>
                         <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {this.state.password}
-                            </h6>
+                            {this.state.password}
                         </div>
                     </button>
 

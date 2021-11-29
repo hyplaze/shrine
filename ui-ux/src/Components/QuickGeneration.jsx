@@ -3,11 +3,11 @@ import { Component } from "react"
 const generator = require('generate-password');
 
 export default
-class QuickGeneration extends Component {
+    class QuickGeneration extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            password: generator.generate({length: 8, numbers: true, symbols: true,strict:true})
+            password: "Click here to generate."
         }
 
     }
@@ -29,9 +29,7 @@ class QuickGeneration extends Component {
                         })
                     })}>
                         <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {this.state.password}
-                            </h6>
+                            {this.state.password}
                         </div>
                     </button>
                 </div>
