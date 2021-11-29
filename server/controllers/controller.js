@@ -165,7 +165,7 @@ exports.deletebox = async function(req, res){
     console.log(useracount);
     var userbox = await website.findOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
     if(userbox != null){
-       userbox = await website.deleteOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
+       website.deleteOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
       res.send({Status: true});
     }
     else{
