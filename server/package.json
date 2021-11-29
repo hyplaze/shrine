@@ -15,6 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.2.0",
     "mongoose": "^6.0.13",
+    "moongoose": "0.0.5",
     "mysql": "^2.18.1",
     "nodeman": "^1.1.2"
   }

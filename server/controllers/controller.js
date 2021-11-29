@@ -12,7 +12,9 @@ exports.test = function (req,res){
 exports.register = async function (req, res){
   try{
     var useracount = await user.findOne({"username": req.body.Email});
-    //console.log("passed await");
+    //console.log(useracount);
+
+    //res.send(useracount.username);
     if(useracount != null){
       res.send("not working bruh this account exists "+false);
     }
@@ -90,31 +92,7 @@ exports.addbox = async function(req, res){
   }
 };
 
-//this function is currently wrong, please see addbox style
-exports.getbox = async function(req, res){
-  try{
-    var useracount = await user.findOne({"cookie": req.query.cookie});
-    if(useracount != null){
-      const box = new website({
-        MasterUser : useracount.username,
-        boxid : req.body.boxid,
-        username : req.body.username,
-        boxname : req.body.boxname,
-        password : req.body.password,
-        url : req.body.url,
-        twoFA : req.body.twoFA
-      });
-      box.save();
-      res.send(true);
-    }
-    else{
-      res.send(false)
-    }
-  }
-  catch{
-    res.send(false);
-  }
-};
+
 
 exports.changebox = async function(req, res){
   try{
@@ -140,3 +118,61 @@ exports.changebox = async function(req, res){
     res.send(false);
   }
 };
+
+exports.getbox = async function(req, res){
+  try{
+    var useracount = await user.findOne({"masterPassword": req.user});
+    if(useracount != null){
+      var userbox = await website.findOne({"MasterUser": req.user, "boxid": req.body.boxid});
+    }
+    if(userbox != null){
+      res.json({Status: true,
+                username: userbox.username,
+                url: userbox.url,
+                password: userbox.password,
+                twoFA: userbox.twoFA
+                });
+    }
+    else{
+      res.json({Status: false});
+    }
+  }
+  catch{
+    res.json({Status:false});
+  }
+};
+
+exports.basicrequest = async function(req, res){
+  try{
+    var useracount = await user.findOne({"masterPassword": req.user});
+    if(useracount != null){
+      var userbox = await website.find({"MasterUser": req.user});
+      res.json(userbox);
+    } 
+    else{
+      res.send({Status: false});
+    }
+  }
+  catch{
+    res.send({Status: false});  
+  }
+}
+
+exports.deletebox = async function(req, res){
+  try{
+    var useracount = await user.findOne({"masterPassword": req.user});
+    console.log(useracount);
+    var userbox = await website.findOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
+    if(userbox != null){
+       userbox = await website.deleteOne({"MasterUser": useracount.masterPassword, "boxid": req.body.boxid});
+      res.send({Status: true});
+    }
+    else{
+      res.send({Status: false});
+    } 
+  }
+      catch{
+      res.send({Status: false});
+    }
+}
+

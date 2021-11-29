@@ -16,4 +16,10 @@ router.post('/getbox',auth.verifyToken, controller.getbox);
 
 router.post('/changebox',auth.verifyToken, controller.changebox);
 
+router.post('/deletebox',auth.verifyToken, controller.deletebox);
+
+//router.post('/logout', auth.verifyToken, controller.logout);
+
+router.post('/basicrequest', auth.verifyToken, controller.basicrequest);
+
 module.exports = router;
