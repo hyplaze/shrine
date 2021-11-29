@@ -11,21 +11,8 @@ export default
                     <NavBar page="HomePage" />
                 </div>
 
-                <div class="row" style={{ marginTop: "1%" }}>
-                    <div class="col-3">
-                        <div class="list-group">
-                            <button class="list-group-item btn btn-outline-primary" aria-current="true">
-                                Add a new Password
-                            </button>
-                            <form class="d-flex" style={{ marginTop: "2%" }}>
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-9">
-                        <Passwords /></div>
-                </div>
+               
+                <Passwords />
             </div>
         )
     }

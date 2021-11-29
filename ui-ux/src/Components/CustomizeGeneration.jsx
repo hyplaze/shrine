@@ -49,7 +49,7 @@ export default
                         Please specify password length and other requirements, then click the area below to start generation. 
                         <span class="badge rounded-pill bg-primary text-black" type="button">copy</span>
                     </div>
-                    <div class="row" style={{ paddingLeft: "2.2%", paddingTop: "1.4%" }}>
+                    <div class="row" style={{ paddingLeft: "1.5%", paddingTop: "1.1%" }}>
                         <div class="col-2">
                             Length: {this.state.p_length}
                         </div>
@@ -58,7 +58,7 @@ export default
                                 value={this.state.p_length} onChange={this.handleInputChange} name="p_length" />
                         </div>
                     </div>
-                    <form style={{ padding: "2%", marginTop: "-1.3%" }}>
+                    <form style={{ padding: "1.5%", paddingTop:"1.8%", marginTop: "-1.3%" }}>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="uppercase"
                                 checked={this.state.p_uppercase} onChange={this.handleInputChange} name="p_uppercase" />
