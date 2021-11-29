@@ -46,7 +46,8 @@ export default
                 <div class="card-boy">
                     <div class="card-header">
                         <h6>Customize password generation.</h6>
-                        Please specify password length and other requirements, then click the area below to start generation.
+                        Please specify password length and other requirements, then click the area below to start generation. 
+                        <span class="badge rounded-pill bg-primary text-black" type="button">copy</span>
                     </div>
                     <div class="row" style={{ paddingLeft: "2.2%", paddingTop: "1.4%" }}>
                         <div class="col-2">

@@ -18,9 +18,10 @@ export default
                 <div class="card-boy">
                     <div class="card-header">
                         <h6>Generate a common 8-digit, mathematically proven safe password with just one click. </h6>
-                        Start by clicking the area below.
+                        Start by clicking the area below. 
+                        <span class="badge rounded-pill bg-primary text-black" type="button">copy</span>
                     </div>
-                    <button type="button card" class="list-group-item list-group-item-action" onClick={() => this.setState({
+                    <button type="card" class="list-group-item list-group-item-action" onClick={() => this.setState({
                         password: generator.generate({
                             length: 8,
                             numbers: true,
