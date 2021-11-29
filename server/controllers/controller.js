@@ -96,26 +96,27 @@ exports.addbox = async function(req, res){
 
 exports.changebox = async function(req, res){
   try{
-    var useracount = await user.findOne({"cookie": req.query.cookie});
+    var useracount = await user.findOne({"cookie": req.user});
     if(useracount != null){
-      const box = new website({
-        MasterUser : useracount.username,
-        boxid : req.body.boxid,
-        username : req.body.username,
-        boxname : req.body.boxname,
-        password : req.body.password,
-        url : req.body.url,
-        twoFA : req.body.twoFA
-      });
-      box.save();
-      res.send(true);
+      var box = await website.findOne({"masterPassword": req.user, "boxid":req.body.boxid});
     }
     else{
-      res.send(false)
+      res.json({Status:false});
+    }
+    if(box != null){
+      box = await website.findOneAndUpdate({"masterPassword": req.user, "boxid":req.body.boxid},
+                                           {"MasterUser": req.user,"boxid":req.body.boxid, "username":req.body.username,
+                                            "boxname": req.body.boxname, "url": req.body.url, "twoFA": req.body.twoFA, 
+                                            "password": req.body.password});
+      box.save();
+      res.json({Status: true});
+    }
+    else{
+      res.json({Status:false});
     }
   }
   catch{
-    res.send(false);
+    res.json({Status:false});
   }
 };
 
