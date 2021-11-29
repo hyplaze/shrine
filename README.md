@@ -1,1 +1,1 @@
-./ui-ux/README.md
+README.md
