@@ -5,9 +5,9 @@ export default
 class LoginPage extends Component {
     render() {
         return (
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-4 h100" style={{paddingTop: "17%"}}> 
+                    <div class="col-4 h100" style={{paddingTop: "15%"}}> 
                         <div class="row justify-content-center">
                             <img src={logo} class="h-25 w-25" alt="Responsive" />
                         </div>

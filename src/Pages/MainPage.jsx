@@ -5,7 +5,7 @@ export default
 class MainPage extends Component {
     render() {
         return (
-            <div class="container min-vh-100 position-relative">
+            <div class="container-fluid min-vh-100 position-relative">
                 <div class="row position-absolute top-50 start-50 translate-middle">
                     <div class="col">
                         <img src={logo} class="img-fluid d-flex" alt="Responsive" />
