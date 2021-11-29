@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="./src/Assets/logo.png"  width="130" height="130" >
+    <img src="/ui-ux/src/Assets/logo.png"  width="130" height="130" >
     <h1 align="center">Shrine</h1>
 </p>
 <p align="center">
