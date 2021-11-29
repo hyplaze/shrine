@@ -2,7 +2,7 @@ import { Component } from "react";
 import ReactModal from 'react-modal';
 
 export default
-class Passwords extends Component {
+    class Passwords extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -44,22 +44,36 @@ class Passwords extends Component {
                 {this.state.entries.map((entry) => {
                     return (
                         <>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">
-                                        {entry.website}
+                            {/* <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <
+                                
+                            </li> */}
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="list-group">
+                                        <button type="button" class="list-group-item list-group-item-action" onClick={this.handleOpenModal}>
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">
+                                                    {entry.website}
+                                                </div>
+                                                {entry.url}
+                                            </div>
+                                        </button>
                                     </div>
-                                    {entry.url}
                                 </div>
-                                <button type="button" class="btn btn-outline-primary float-right" onClick={this.handleOpenModal}>
-                                    Inspect
-                                </button>
-                            </li>
-                            <ReactModal isOpen={this.state.showModal} contentLabel="Minimal Modal Example" >
+                                <div class="col-2" style={{paddingTop: "1%", paddingLeft: "2%"}}>
+                                    <button type="button" class="btn btn-outline-danger">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* This is a modal; Popping up only when making changes to a password entry. */}
+                            <ReactModal isOpen={this.state.showModal}>
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Inspection</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Make changes to a password entry</h5>
                                         </div>
                                         <div class="modal-body">
                                             <form>
