@@ -1,6 +1,7 @@
 import { Component } from "react";
 import logo from "../Assets/logo.png"
 
+export default
 class MainPage extends Component {
     render() {
         return (
@@ -37,5 +38,3 @@ class MainPage extends Component {
         )
     }
 }
-
-export default MainPage

@@ -1,18 +1,14 @@
 import { Component } from "react";
 import NavBar from "../Components/NavBar";
-import Passwords from "../Components/Passwords";
 
 export default
-class HomePage extends Component {
+class CheckerPage extends Component {
     render() {
         return (
             <div class="container-fluid">
+
                 <div class="row">
-                    <NavBar page="HomePage" />
-                </div>
-                <div class="row">
-                    
-                    <Passwords />
+                    <NavBar page="CheckerPage" />
                 </div>
             </div>
         )

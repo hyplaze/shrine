@@ -1,12 +1,13 @@
 import { Component } from "react";
 import logo from "../Assets/logo.png"
 
+export default
 class LoginPage extends Component {
     render() {
         return (
-            <div class="container min-vh-100">
-                <div class="row justify-content-center" style={{paddingTop: "150px"}}>
-                    <div class="col-4"> 
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-4 h100" style={{paddingTop: "17%"}}> 
                         <div class="row justify-content-center">
                             <img src={logo} class="h-25 w-25" alt="Responsive" />
                         </div>
@@ -48,5 +49,3 @@ class LoginPage extends Component {
         )
     }
 }
-
-export default LoginPage

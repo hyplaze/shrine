@@ -1,7 +1,7 @@
 import { Component } from "react";
 import ReactModal from 'react-modal';
-import "../index.css"
 
+export default
 class Passwords extends Component {
     constructor(props) {
         super(props)
@@ -100,5 +100,3 @@ class Passwords extends Component {
         )
     }
 }
-
-export default Passwords
