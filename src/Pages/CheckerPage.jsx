@@ -14,8 +14,9 @@ async function getBreach(){
         method: 'post',
         url: 'http://localhost:3000/basicrequest',
         data:{
-            //[0] get cookie to wherever it is stroed
-            cookie:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtcGgiOiIxOTY1NzciLCJpYXQiOjE2MzgyNDIwNTksImV4cCI6MTYzODI1Mjg1OX0.S-f9kRaT7U7AIzTJYl8iSZlKfO00WMkn_5M71jaYCPc" //later implemented
+            //[0] get cookie to wherever it is stored
+            cookie: localStorage.getItem("cookie")
+            // cookie:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtcGgiOiIxOTY1NzciLCJpYXQiOjE2MzgyNDIwNTksImV4cCI6MTYzODI1Mjg1OX0.S-f9kRaT7U7AIzTJYl8iSZlKfO00WMkn_5M71jaYCPc" //later implemented
         } 
       });
 
@@ -91,7 +92,7 @@ class CheckerPage extends Component {
                 p=<p>{"WARNING: TOTAL "+this.state.value+" BREACHES"}</p>
                 for(var i=0; i<this.state.value; i++){
                     o.push(
-                    <p key={"b"+i}>{"A password breached has been foun in the box \""+Object.keys(this.state.breached)[i]+"\""}</p>,
+                    <p key={"b"+i}>{"A password breached has been found in the box \""+Object.keys(this.state.breached)[i]+"\""}</p>,
                     <p key={"c"+i}>{"Its Password has been seen "+Object.values(this.state.breached)[i]+" times before"}</p>)
                 }
                 q=<i>{"Theses password has previously appeared in a data breach and should never be used. Please change password IMMEDIATELY!"}</i>
