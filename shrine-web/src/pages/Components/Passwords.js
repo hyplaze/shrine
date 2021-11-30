@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
+
+import axios from "../../axios/axiosConfig";
 // import AddPasswordModal from "./AddPasswordModal";
 
 export default class Passwords extends Component {
@@ -11,7 +13,7 @@ export default class Passwords extends Component {
       showInspectModal: false,
       showEditModal: false,
       entryInModal: {},
-      setEntries: this.props.setEntries,
+      refresh: this.props.refresh,
     };
     this.handleOpenInspectModal = this.handleOpenInspectModal.bind(this);
     this.handleCloseInspectModal = this.handleCloseInspectModal.bind(this);
@@ -24,22 +26,23 @@ export default class Passwords extends Component {
     this.EditModal = this.EditModal.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.entries !== this.props.entries) {
-      this.setState({ entries: this.props.entries });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log("componentDidUpdate", prevProps.entries, this.props.entries);
+  //   if (prevProps.entries !== this.props.entries) {
+  //     this.setState({ entries: this.props.entries });
+  //   }
+  // }
 
-  handleOpenInspectModal() {
+  handleOpenInspectModal = () => {
     this.setState({ showInspectModal: true });
-  }
+  };
 
-  handleCloseInspectModal() {
+  handleCloseInspectModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showInspectModal: false });
-  }
+  };
 
-  InspectModal() {
+  InspectModal = () => {
     return (
       <>
         <Modal
@@ -180,40 +183,83 @@ export default class Passwords extends Component {
         </Modal>
       </>
     );
-  }
+  };
 
-  handleOpenEditModal() {
+  handleOpenEditModal = () => {
     this.setState({ showEditModal: true });
-  }
+  };
 
-  handleSaveAndCloseEditModal() {
+  handleSaveAndCloseEditModal = async () => {
     console.log("current entryinmodal is", this.state.entryInModal);
     console.log("save and close");
-    let entryInModalIsInEntries = false;
-    const newEntries = this.state.entries.map((entry) => {
-      if (entry.id === this.state.entryInModal.id) {
-        entryInModalIsInEntries = true;
-        return this.state.entryInModal;
-      } else {
-        return entry;
-      }
-    });
-    if (entryInModalIsInEntries === false) {
-      newEntries.push(this.state.entryInModal);
+    let response = null;
+    console.log("this.state.entryInModal.boxid", this.state.entryInModal.boxid);
+    console.log(
+      "all ids",
+      this.props.entries.map((entry) => entry.boxid)
+    );
+    if (
+      this.state.entryInModal.boxid in
+      this.props.entries.map((entry) => entry.boxid)
+    ) {
+      // should be edit
+      response = await axios({
+        method: "post",
+        url: "/changebox",
+        data: {
+          cookie: localStorage.getItem("cookie"),
+          boxid: this.state.entryInModal.boxid,
+          boxname: this.state.entryInModal.boxname,
+          twoFA: this.state.entryInModal.twoFA,
+          username: this.state.entryInModal.username,
+          url: this.state.entryInModal.url,
+          password: this.state.entryInModal.password,
+        },
+      });
+    } else {
+      // should be add
+      response = await axios({
+        method: "post",
+        url: "/addbox",
+        data: {
+          cookie: localStorage.getItem("cookie"),
+          boxid: this.state.entryInModal.boxid,
+          boxname: this.state.entryInModal.boxname,
+          twoFA: this.state.entryInModal.twoFA,
+          username: this.state.entryInModal.username,
+          url: this.state.entryInModal.url,
+          password: this.state.entryInModal.password,
+        },
+      });
     }
-    console.log("Updated", newEntries);
-    this.setState({ entries: newEntries });
-    this.state.setEntries(newEntries);
+    if (response.data.Status === true) this.state.refresh();
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
-  }
+    // let entryInModalIsInEntries = false;
+    // const newEntries = this.state.entries.map((entry) => {
+    //   if (entry.id === this.state.entryInModal.id) {
+    //     entryInModalIsInEntries = true;
+    //     return this.state.entryInModal;
+    //   } else {
+    //     return entry;
+    //   }
+    // });
+    // if (entryInModalIsInEntries === false) {
+    //   newEntries.push(this.state.entryInModal);
+    // }
+    // console.log("Updated", newEntries);
+    // this.setState({ entries: newEntries });
+    // this.state.setEntries(newEntries);
+    // this.setState({ entryInModal: {} });
+    // this.setState({ showEditModal: false });
+  };
 
-  handleCloseEditModal() {
+  handleCloseEditModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
-  }
+  };
 
-  EditModal() {
+  EditModal = () => {
     return (
       <>
         <Modal
@@ -354,8 +400,19 @@ export default class Passwords extends Component {
         </Modal>
       </>
     );
-  }
+  };
 
+  handleDelete = async (boxid) => {
+    const response = await axios({
+      method: "post",
+      url: "/deletebox",
+      data: {
+        cookie: localStorage.getItem("cookie"),
+        boxid: boxid,
+      },
+    });
+    if (response.data.Status === true) this.state.refresh();
+  };
   render = () => {
     console.log("rendering");
     console.log(this.state.entries);
@@ -366,30 +423,15 @@ export default class Passwords extends Component {
           aria-current="true"
           onClick={() => {
             const entry = {};
-            entry.id = uuidv4();
+            entry.boxid = uuidv4();
             this.setState({ entryInModal: entry });
             this.handleOpenEditModal();
+            console.log("open");
           }}
         >
           Add a new Password
         </button>
         <div class="row" style={{ marginTop: "1%" }}>
-          {/* <div class="col-3">
-            <div class="list-group">
-              <AddPasswordModal />
-              <form class="d-flex" style={{ marginTop: "2%" }}>
-                <input
-                  class="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button class="btn btn-outline-success" type="submit">
-                  Search
-                </button>
-              </form>
-            </div>
-          </div> */}
           <div class="col-9">
             <ol class="list-group list-group-numbered">
               {this.state.entries.map((entry) => {
@@ -405,11 +447,7 @@ export default class Passwords extends Component {
                       <div
                         class="col-1"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      >
-                        <div class="list-group">
-                          <this.InspectModal />
-                        </div>
-                      </div>
+                      ></div>
                       <div
                         class="col-1"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
@@ -428,11 +466,7 @@ export default class Passwords extends Component {
                       <div
                         class="col-1"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      >
-                        <div class="list-group">
-                          <this.EditModal />
-                        </div>
-                      </div>
+                      ></div>
                       <div
                         class="col-2 "
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
@@ -452,7 +486,13 @@ export default class Passwords extends Component {
                         class="col-2"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
                       >
-                        <button type="button" class="btn btn-outline-danger">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          onClick={() => {
+                            this.handleDelete(entry.boxid);
+                          }}
+                        >
                           Delete
                         </button>
                       </div>
@@ -463,6 +503,8 @@ export default class Passwords extends Component {
             </ol>
           </div>
         </div>
+        <this.EditModal />
+        <this.InspectModal />
       </>
     );
   };
