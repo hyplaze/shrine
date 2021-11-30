@@ -406,9 +406,7 @@ export default class Passwords extends Component {
                         class="col-1"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
                       >
-                        <div class="list-group">
-                          <this.InspectModal />
-                        </div>
+                      
                       </div>
                       <div
                         class="col-1"
@@ -429,9 +427,7 @@ export default class Passwords extends Component {
                         class="col-1"
                         style={{ paddingTop: "1%", paddingLeft: "2%" }}
                       >
-                        <div class="list-group">
-                          <this.EditModal />
-                        </div>
+                    
                       </div>
                       <div
                         class="col-2 "
@@ -463,6 +459,8 @@ export default class Passwords extends Component {
             </ol>
           </div>
         </div>
+        <this.EditModal />
+        <this.InspectModal />
       </>
     );
   };
