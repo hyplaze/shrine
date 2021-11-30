@@ -25,7 +25,7 @@ function MainPage() {
             type="button"
             class="btn btn-outline-primary"
             onClick={() => {
-              history.push("/register");
+              history.push("/login");
               history.go();
             }}
           >
