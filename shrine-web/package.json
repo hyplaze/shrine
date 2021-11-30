@@ -12,6 +12,7 @@
     "bootstrap": "^5.1.3",
     "generate-password": "^1.7.0",
     "jquery": "^3.6.0",
+    "js-sha1": "^0.6.0",
     "popper.js": "^1.16.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.2",

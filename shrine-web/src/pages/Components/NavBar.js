@@ -56,6 +56,11 @@ class NavBar extends Component {
                   Generator
                 </a>
               </li>
+              <li class="nav-item">
+                <a class={style2} href="/checker">
+                  Password-Pwned?
+                </a>
+              </li>
               <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
