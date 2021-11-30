@@ -25,14 +25,16 @@ const HomePage = () => {
 
   const retrieveBoxesIndex = async (cookie) => {
     const response = await axios({
-      method: "get",
+      method: "post",
       url: "/basicrequest",
       data: {
         cookie: cookie,
       },
     });
-    console.log(response);
-    return response;
+    setBoxes(response.data);
+    console.log("get response");
+    console.log(response.data);
+    console.log(boxes);
   };
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const HomePage = () => {
       history.replace("/login");
     } else {
       console.log("successfully have cookie and stretchedMasterKey");
+      retrieveBoxesIndex(localStorage.getItem("cookie"));
     }
   }, [history]);
 
@@ -63,12 +66,6 @@ const HomePage = () => {
       <div class="row" style={{ marginTop: "1%" }}>
         <div class="col-3">
           <div class="list-group">
-            <button
-              class="list-group-item btn btn-outline-primary"
-              aria-current="true"
-            >
-              Add a new Password
-            </button>
             <form class="d-flex" style={{ marginTop: "2%" }}>
               <input
                 class="form-control me-2"
@@ -83,7 +80,7 @@ const HomePage = () => {
           </div>
         </div>
         <div class="col-9">
-          <Passwords />
+          <Passwords entries={boxes} setEntries={setBoxes} />
         </div>
       </div>
     </div>
