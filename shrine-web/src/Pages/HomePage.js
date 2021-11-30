@@ -12,6 +12,7 @@ import Passwords from "./Components/Passwords";
 const HomePage = () => {
   const history = useHistory();
   const [boxes, setBoxes] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   const logoutHandler = async (cookie) => {
     const response = await axios({
@@ -40,6 +41,18 @@ const HomePage = () => {
     console.log("get response");
     console.log(response.data);
     console.log(boxes);
+    await searchHandler(response.data);
+  };
+
+  const searchHandler = async (boxes) => {
+    const results = [];
+    for (let i = 0; i < boxes.length; i++) {
+      if (boxes[i].boxname.includes("name")) {
+        results.push(boxes[i]);
+      }
+    }
+    setSearchResults(results);
+    console.log("new search results", results);
   };
 
   useEffect(() => {
@@ -85,7 +98,11 @@ const HomePage = () => {
           </div>
         </div>
         <div class="col-9">
-          <Passwords entries={boxes} setEntries={setBoxes} />
+          <Passwords
+            entries={searchResults}
+            refresh={retrieveBoxesIndex}
+            key={searchResults}
+          />
         </div>
       </div>
     </div>
