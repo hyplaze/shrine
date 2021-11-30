@@ -190,17 +190,13 @@ export default class Passwords extends Component {
   };
 
   handleSaveAndCloseEditModal = async () => {
-    console.log("current entryinmodal is", this.state.entryInModal);
     console.log("save and close");
+    console.log("current entryinmodal is", this.state.entryInModal);
     let response = null;
-    console.log("this.state.entryInModal.boxid", this.state.entryInModal.boxid);
-    console.log(
-      "all ids",
-      this.props.entries.map((entry) => entry.boxid)
-    );
     if (
-      this.state.entryInModal.boxid in
-      this.props.entries.map((entry) => entry.boxid)
+      this.props.entries
+        .map((entry) => entry.boxid)
+        .includes(this.state.entryInModal.boxid)
     ) {
       // should be edit
       response = await axios({
@@ -235,6 +231,7 @@ export default class Passwords extends Component {
     if (response.data.Status === true) this.state.refresh();
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
+
     // let entryInModalIsInEntries = false;
     // const newEntries = this.state.entries.map((entry) => {
     //   if (entry.id === this.state.entryInModal.id) {

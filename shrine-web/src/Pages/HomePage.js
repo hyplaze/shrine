@@ -8,6 +8,7 @@ const HomePage = () => {
   const history = useHistory();
   const [boxes, setBoxes] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const logoutHandler = async (cookie) => {
     const response = await axios({
@@ -24,12 +25,12 @@ const HomePage = () => {
     }
   };
 
-  const retrieveBoxesIndex = async (cookie) => {
+  const retrieveBoxesIndex = async () => {
     const response = await axios({
       method: "post",
       url: "/basicrequest",
       data: {
-        cookie: cookie,
+        cookie: localStorage.getItem("cookie"),
       },
     });
     setBoxes(response.data);
@@ -37,6 +38,7 @@ const HomePage = () => {
     console.log(response.data);
     console.log(boxes);
     await searchHandler(response.data);
+    setForceUpdate(forceUpdate + 1);
   };
 
   const searchHandler = async (boxes) => {
@@ -96,7 +98,7 @@ const HomePage = () => {
           <Passwords
             entries={searchResults}
             refresh={retrieveBoxesIndex}
-            key={searchResults}
+            key={forceUpdate}
           />
         </div>
       </div>
