@@ -36,18 +36,21 @@ export default class Passwords extends Component {
   // }
 
   handleOpenInspectModal = async (entry) => {
-    console.log(entry.password);
-    console.log(entry.twoFA);
-    entry.password = await decrypt(
-      entry.password,
-      localStorage.getItem("stretchedMasterKey")
-    );
-    entry.twoFA = entry.password = await decrypt(
-      entry.twoFA,
-      localStorage.getItem("stretchedMasterKey")
-    );
-    this.setState({ entryInModal: entry });
-    this.setState({ showInspectModal: true });
+    this.setState({
+      showInspectModal: true,
+
+      entryInModal: {
+        ...entry,
+        password: await decrypt(
+          entry.password,
+          localStorage.getItem("stretchedMasterKey")
+        ),
+        twoFA: await decrypt(
+          entry.twoFA,
+          localStorage.getItem("stretchedMasterKey")
+        ),
+      },
+    });
   };
 
   handleCloseInspectModal = () => {
@@ -150,8 +153,28 @@ export default class Passwords extends Component {
     );
   };
 
-  handleOpenEditModal = () => {
-    this.setState({ showEditModal: true });
+  handleOpenEditModal = async (entry) => {
+    this.setState({
+      showEditModal: true,
+
+      entryInModal: {
+        ...entry,
+        password:
+          "password" in entry
+            ? await decrypt(
+                entry.password,
+                localStorage.getItem("stretchedMasterKey")
+              )
+            : "",
+        twoFA:
+          "twoFA" in entry
+            ? await decrypt(
+                entry.twoFA,
+                localStorage.getItem("stretchedMasterKey")
+              )
+            : "",
+      },
+    });
   };
 
   handleSaveAndCloseEditModal = async () => {
@@ -192,27 +215,13 @@ export default class Passwords extends Component {
         data: data,
       });
     }
-    if (response.data.Status === true) this.state.refresh();
+    console.log("response is", response);
+    if (response.data.Status === true) {
+      console.log("We refresh");
+      this.state.refresh();
+    }
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
-
-    // let entryInModalIsInEntries = false;
-    // const newEntries = this.state.entries.map((entry) => {
-    //   if (entry.id === this.state.entryInModal.id) {
-    //     entryInModalIsInEntries = true;
-    //     return this.state.entryInModal;
-    //   } else {
-    //     return entry;
-    //   }
-    // });
-    // if (entryInModalIsInEntries === false) {
-    //   newEntries.push(this.state.entryInModal);
-    // }
-    // console.log("Updated", newEntries);
-    // this.setState({ entries: newEntries });
-    // this.state.setEntries(newEntries);
-    // this.setState({ entryInModal: {} });
-    // this.setState({ showEditModal: false });
   };
 
   handleCloseEditModal = () => {
@@ -385,8 +394,7 @@ export default class Passwords extends Component {
           onClick={() => {
             const entry = {};
             entry.boxid = uuidv4();
-            this.setState({ entryInModal: entry });
-            this.handleOpenEditModal();
+            this.handleOpenEditModal(entry);
             console.log("open");
           }}
         >
@@ -436,8 +444,7 @@ export default class Passwords extends Component {
                           class="list-group-item list-group-item-action"
                           aria-current="true"
                           onClick={() => {
-                            this.setState({ entryInModal: entry });
-                            this.handleOpenEditModal();
+                            this.handleOpenEditModal(entry);
                           }}
                         >
                           Edit

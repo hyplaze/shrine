@@ -4,14 +4,12 @@ import axios from "../axios/axiosConfig";
 import NavBar from "./Components/NavBar";
 import Passwords from "./Components/Passwords";
 
-
-
-
 const HomePage = () => {
   const history = useHistory();
   const [boxes, setBoxes] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [textInput, setTextInput] = useState("");
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const logoutHandler = async (cookie) => {
     const response = await axios({
@@ -28,11 +26,6 @@ const HomePage = () => {
     }
   };
 
-  const test=()=>{
-    console.log("test succeed!");
-    console.log("input is "+textInput);
-  };
-
   const retrieveBoxesIndex = async () => {
     const response = await axios({
       method: "post",
@@ -45,53 +38,44 @@ const HomePage = () => {
     console.log("get response");
     console.log(response.data);
     console.log(boxes);
-    await searchHandler(response.data);
   };
 
   const searchHandler = async (boxes) => {
     const results = [];
 
-    console.log("I am searching for "+textInput);
+    console.log("I am searching for " + textInput);
 
-    if(textInput.length===0){
+    if (textInput.length === 0) {
+      console.log("So we set with no search text");
       setSearchResults(boxes);
-    }else{
-      console.log(boxes)
-
-      
-      for(const box of boxes){
-        if(("boxname" in box && box.boxname.includes(textInput)) || 
-          ("username" in box && box.username.includes(textInput)) || 
-          ("url" in box && box.url.includes(textInput))){
+    } else {
+      for (const box of boxes) {
+        if (
+          ("boxname" in box && box.boxname.includes(textInput)) ||
+          ("username" in box && box.username.includes(textInput)) ||
+          ("url" in box && box.url.includes(textInput))
+        ) {
           results.push(box);
         }
       }
-
+      console.log("So we set with search text");
       setSearchResults(results);
     }
-
-    
-
-    // for (let i = 0; i < boxes.length; i++) {
-    //   if (boxes[i].boxname.includes("name")) {
-    //     results.push(boxes[i]);
-    //   }
-    // }
-    // setSearchResults(results);
-    // console.log("new search results", results);
+    setForceUpdate(forceUpdate + 1);
   };
 
-  const initiateSearch= (e) =>{
+  const initiateSearch = (e) => {
     setTextInput(e.target.value);
-    
-
   };
-
 
   useEffect(() => {
-    console.log("the input is now "+textInput);
+    searchHandler(boxes);
+  }, [boxes]);
+
+  useEffect(() => {
+    console.log("the input is now " + textInput);
     retrieveBoxesIndex();
-  },[textInput])
+  }, [textInput]);
 
   useEffect(() => {
     console.log("cookie in localStorage:", localStorage.getItem("cookie"));
@@ -113,7 +97,6 @@ const HomePage = () => {
     }
   }, [history]);
 
-
   return (
     <div class="container-fluid">
       <div class="row">
@@ -132,7 +115,11 @@ const HomePage = () => {
                 value={textInput}
                 onChange={initiateSearch}
               />
-              <button class="btn btn-outline-success" type="submit" id="SearchAct">
+              <button
+                class="btn btn-outline-success"
+                type="submit"
+                id="SearchAct"
+              >
                 Search
               </button>
             </form>
@@ -142,7 +129,7 @@ const HomePage = () => {
           <Passwords
             entries={searchResults}
             refresh={retrieveBoxesIndex}
-            key={searchResults}
+            key={forceUpdate}
           />
         </div>
       </div>
