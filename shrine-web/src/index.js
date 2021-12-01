@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactDom from "react-dom";
-import "jquery";
-import "popper.js";
+
 import "bootstrap/dist/js/bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
