@@ -3,7 +3,7 @@ import { Route, useHistory } from "react-router-dom";
 import axios from "../axios/axiosConfig";
 import NavBar from "./Components/NavBar";
 import Passwords from "./Components/Passwords";
-import Checker from "./Components/Checker";
+import Checker from "./CheckerPage";
 
 const HomePage = () => {
   const history = useHistory();

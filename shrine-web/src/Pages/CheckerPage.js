@@ -1,7 +1,7 @@
 import { Component } from "react";
-import NavBar from "./NavBar";
-import {encrypt, decrypt} from "../../crypto/encryption"
-import axios from "../../axios/axiosConfig"
+import NavBar from "./Components/NavBar";
+import {encrypt, decrypt} from "../crypto/encryption"
+import axios from "../axios/axiosConfig"
 // const axios = require('axios').default;
 const sha1 = require('js-sha1');
 
@@ -69,7 +69,7 @@ async function getBreach(){
 
 
 export default
-class Checker extends Component {
+class CheckerPage extends Component {
     constructor(props){
         super(props);
         this.state={
