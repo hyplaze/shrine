@@ -1,7 +1,12 @@
 import { Component } from "react";
 import NavBar from "./Components/NavBar";
-const axios = require('axios').default;
+import {encrypt, decrypt} from "../crypto/encryption"
+import axios from "../axios/axiosConfig"
+// const axios = require('axios').default;
 const sha1 = require('js-sha1');
+
+
+
 
 
 var pwnd_dict = {}
@@ -12,7 +17,7 @@ var pwnd_dict = {}
 async function getBreach(){
     const response = await axios({
         method: 'post',
-        url: 'http://localhost:3000/basicrequest',
+        url: '/basicrequest',
         data:{
             //[0] get cookie to wherever it is stored
             cookie: localStorage.getItem("cookie")
@@ -27,29 +32,33 @@ async function getBreach(){
 
 
     async function checkBreach(item){
-        const digest = sha1(item.password).toUpperCase();
-        console.log("password is " + item.password);
+        if("password" in item){
+            const decryptedPassword=await decrypt(item.password, localStorage.getItem("stretchedMasterKey"));
+            const digest = sha1(decryptedPassword).toUpperCase();
+            console.log("password is " + item.password);
 
-        const digestFront = digest.slice(0,5);
-        const digestEnd = digest.slice(-35);
-        console.log(digestFront);
-        console.log(digestEnd);
-        const res = await axios.get("https://api.pwnedpasswords.com/range/"+digestFront);
-        
-        let pwnd_list = res.data.split('\r\n');
-
-        
-
-        pwnd_list.forEach(createDictionary);
-
-        function createDictionary(i){
-            const pwnd_pair = i.split(":");
-            if(pwnd_pair[0]==digestEnd){
-                pwnd_dict[item.boxname] = pwnd_pair[1];
-                console.log("I am here");
-            }
+            const digestFront = digest.slice(0,5);
+            const digestEnd = digest.slice(-35);
+            console.log(digestFront);
+            console.log(digestEnd);
+            const res = await axios.get("https://api.pwnedpasswords.com/range/"+digestFront);
             
+            let pwnd_list = res.data.split('\r\n');
+
+            
+
+            pwnd_list.forEach(createDictionary);
+
+            function createDictionary(i){
+                const pwnd_pair = i.split(":");
+                if(pwnd_pair[0]==digestEnd){
+                    pwnd_dict[item.boxname] = pwnd_pair[1];
+                    console.log("I am here");
+                }
+                
+            }
         }
+        
 
     }
 
