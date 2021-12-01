@@ -45,11 +45,11 @@ function RegisterPage() {
   }
 
   return (
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-4 h100" style={{ paddingTop: "15%" }}>
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center h-100 align-items-center">
+        <div class="col-4">
           <div class="row justify-content-center">
-            <img src={logo} class="h-25 w-25" alt="Responsive" />
+            <img src={logo} class="h-25 w-25" />
           </div>
           <form onSubmit={registerUser}>
             <div class="mb-3">
@@ -68,46 +68,46 @@ function RegisterPage() {
               </div>
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
+              <label class="form-label">
                 Password
               </label>
               <input
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 class="form-control"
-                id="exampleInputPassword1"
               />
             </div>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic outlined example"
-            >
-              <button type="submit" class="btn btn-outline-primary">
-                Sign Up
+            <div class="justify-content-between d-flex">
+              <div
+                class="btn-group"
+                role="group"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onClick={() => {
+                    history.push("/login");
+                    history.go();
+                  }}
+                >
+                  Registered? Log In
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onClick={() => {
+                    history.push("/");
+                    history.go();
+                  }}
+                >
+                  About
+                </button>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                {"⠀Sign Up⠀"}
               </button>
             </div>
           </form>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/login");
-              history.go();
-            }}
-          >
-            Registered? Log In
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/");
-              history.go();
-            }}
-          >
-            About
-          </button>
         </div>
       </div>
     </div>
