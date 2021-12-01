@@ -102,7 +102,7 @@ const HomePage = () => {
       <div class="row">
         <NavBar page="HomePage" logoutHandler={logoutHandler} />
       </div>
-      <div class="row mt-2">
+      <div class="row mt-3">
         <div class="col-3">
           <div class="card border-grey">
             <h2 class="m-2 p-1">Welcome, Bitch.</h2>

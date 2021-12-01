@@ -387,10 +387,10 @@ export default class Passwords extends Component {
     console.log("rendering");
     console.log(this.state.entries);
     return (
-      <>
-        <div class="d-grid gap-2">
+      <div class="container-fluid">
+        <div class="d-grid">
           <button
-            class="btn btn-primary mt-2"
+            class="btn btn-primary mt-1"
             onClick={() => {
               const entry = {};
               entry.boxid = uuidv4();
@@ -464,7 +464,7 @@ export default class Passwords extends Component {
         </ol>
         <this.EditModal />
         <this.InspectModal />
-      </>
+      </div>
     );
   };
 }
