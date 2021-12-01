@@ -7,12 +7,11 @@ import Passwords from "./Components/Passwords";
 
 
 
-
-
 const HomePage = () => {
   const history = useHistory();
   const [boxes, setBoxes] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [textInput, setTextInput] = useState("");
 
   const logoutHandler = async (cookie) => {
     const response = await axios({
@@ -29,12 +28,17 @@ const HomePage = () => {
     }
   };
 
-  const retrieveBoxesIndex = async (cookie) => {
+  const test=()=>{
+    console.log("test succeed!");
+    console.log("input is "+textInput);
+  };
+
+  const retrieveBoxesIndex = async () => {
     const response = await axios({
       method: "post",
       url: "/basicrequest",
       data: {
-        cookie: cookie,
+        cookie: localStorage.getItem("cookie"),
       },
     });
     setBoxes(response.data);
@@ -46,14 +50,48 @@ const HomePage = () => {
 
   const searchHandler = async (boxes) => {
     const results = [];
-    for (let i = 0; i < boxes.length; i++) {
-      if (boxes[i].boxname.includes("name")) {
-        results.push(boxes[i]);
+
+    console.log("I am searching for "+textInput);
+
+    if(textInput.length===0){
+      setSearchResults(boxes);
+    }else{
+      console.log(boxes)
+
+      
+      for(const box of boxes){
+        if(("boxname" in box && box.boxname.includes(textInput)) || 
+          ("username" in box && box.username.includes(textInput)) || 
+          ("url" in box && box.url.includes(textInput))){
+          results.push(box);
+        }
       }
+
+      setSearchResults(results);
     }
-    setSearchResults(results);
-    console.log("new search results", results);
+
+    
+
+    // for (let i = 0; i < boxes.length; i++) {
+    //   if (boxes[i].boxname.includes("name")) {
+    //     results.push(boxes[i]);
+    //   }
+    // }
+    // setSearchResults(results);
+    // console.log("new search results", results);
   };
+
+  const initiateSearch= (e) =>{
+    setTextInput(e.target.value);
+    
+
+  };
+
+
+  useEffect(() => {
+    console.log("the input is now "+textInput);
+    retrieveBoxesIndex();
+  },[textInput])
 
   useEffect(() => {
     console.log("cookie in localStorage:", localStorage.getItem("cookie"));
@@ -71,9 +109,10 @@ const HomePage = () => {
       history.replace("/login");
     } else {
       console.log("successfully have cookie and stretchedMasterKey");
-      retrieveBoxesIndex(localStorage.getItem("cookie"));
+      retrieveBoxesIndex();
     }
   }, [history]);
+
 
   return (
     <div class="container-fluid">
@@ -90,8 +129,10 @@ const HomePage = () => {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={textInput}
+                onChange={initiateSearch}
               />
-              <button class="btn btn-outline-success" type="submit">
+              <button class="btn btn-outline-success" type="submit" id="SearchAct">
                 Search
               </button>
             </form>
