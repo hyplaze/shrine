@@ -6,12 +6,7 @@ export default class QuickGeneration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: generator.generate({
-        length: 8,
-        numbers: true,
-        symbols: true,
-        strict: true,
-      }),
+      password: <span class="text-success"> Click here to generate and copy.</span>,
     };
   }
 
@@ -24,7 +19,7 @@ export default class QuickGeneration extends Component {
               Generate a common 8-digit, mathematically proven safe password
               with just one click.{" "}
             </h6>
-            Start by clicking the area below.
+            Start by clicking the area below. Then the password will be automatically copied.
           </div>
           <button
             type="button card"
@@ -40,11 +35,7 @@ export default class QuickGeneration extends Component {
               })
             }
           >
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">
-                {this.state.password}
-              </h6>
-            </div>
+            {this.state.password}
           </button>
         </div>
       </div>

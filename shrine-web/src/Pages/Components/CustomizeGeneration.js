@@ -11,14 +11,7 @@ export default class CustomizeGeneration extends Component {
       p_symbols: false,
       p_uppercase: false,
       p_strict: false,
-
-      password: generator.generate({
-        length: 10,
-        numbers: false,
-        symbols: false,
-        uppercase: false,
-        strict: false,
-      }),
+      password: <span class="text-success inline">Click here to generate and copy.</span>,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -40,21 +33,26 @@ export default class CustomizeGeneration extends Component {
           <div class="card-header">
             <h6>Customize password generation.</h6>
             Please specify password length and other requirements, then click
-            the area below to start generation.
+            the area below to start and copy generated password.
           </div>
-
-          <p style={{ padding: "1%" }}> Length: {this.state.p_length} </p>
-          <input
-            type="range"
-            class="form-range"
-            min="4"
-            max="18"
-            id="p_length"
-            value={this.state.p_length}
-            onChange={this.handleInputChange}
-            name="p_length"
-          />
-          <form>
+          <div class="row">
+            <div class="col-3 mt-2 ms-3 align-items-center">
+              <p class="d-flex"> Password length: {this.state.p_length} digits</p>
+            </div>
+            <div class="col-3 d-flex align-items-center">
+              <input
+                type="range"
+                class="form-range"
+                min="4"
+                max="18"
+                id="p_length"
+                value={this.state.p_length}
+                onChange={this.handleInputChange}
+                name="p_length"
+              />
+            </div>
+          </div>
+          <form class="mx-3 mb-2">
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
@@ -119,15 +117,10 @@ export default class CustomizeGeneration extends Component {
                   symbols: this.state.p_symbols,
                   strict: this.state.p_strict,
                   uppercase: this.state.p_uppercase,
-                }),
+                })
               })
-            }
-          >
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">
-                {this.state.password}
-              </h6>
-            </div>
+            }>
+              {this.state.password} 
           </button>
         </div>
       </div>
