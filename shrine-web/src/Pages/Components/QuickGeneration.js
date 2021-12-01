@@ -13,6 +13,11 @@ export default class QuickGeneration extends Component {
         strict: true,
       }),
     };
+    this.handleCopy = this.handleCopy.bind(this);
+  }
+
+  handleCopy(){
+    navigator.clipboard.writeText(this.state.password)
   }
 
   render() {
@@ -37,7 +42,7 @@ export default class QuickGeneration extends Component {
                   symbols: true,
                   strict: true,
                 }),
-              })
+              },this.handleCopy)
             }
           >
             <div class="card-body">

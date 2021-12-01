@@ -22,6 +22,7 @@ export default class CustomizeGeneration extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
   }
 
   handleInputChange(event) {
@@ -31,6 +32,10 @@ export default class CustomizeGeneration extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  handleCopy(){
+    navigator.clipboard.writeText(this.state.password)
   }
 
   render() {
@@ -111,7 +116,7 @@ export default class CustomizeGeneration extends Component {
           <button
             type="button card"
             class="list-group-item list-group-item-action"
-            onClick={() =>
+            onClick={() => {
               this.setState({
                 password: generator.generate({
                   length: this.state.p_length,
@@ -120,7 +125,9 @@ export default class CustomizeGeneration extends Component {
                   strict: this.state.p_strict,
                   uppercase: this.state.p_uppercase,
                 }),
-              })
+                
+              },this.handleCopy);
+            }
             }
           >
             <div class="card-body">
