@@ -100,13 +100,13 @@ export default
         let q; //text explain what you should do, what does this check mean
         if (this.state.pressed) { //[1] make the output look nicer
             if (this.state.value != 0) {
-                p = <p class="text-danger">{"WARNING: Total " + this.state.value + " breaches"}</p>
+                p = <h6 class="text-danger">{"WARNING: Total " + this.state.value + " breaches"}</h6>
                 for (var i = 0; i < this.state.value; i++) {
                     o.push(
-                        <p key={"b" + i}>{"In the box \"" + Object.keys(this.state.breached)[i] + "\": password has been seen " + Object.values(this.state.breached)[i] + " times before."}</p>)
+                        <span class="list-group-item" key={"b" + i}>{"In the box \"" + Object.keys(this.state.breached)[i] + "\": password has been seen " + Object.values(this.state.breached)[i] + " times before."}</span>)
                 }
             } else {
-                p = <p class="text-success">{"There are no password breaches. You are good to go."}</p>
+                p = <h6 class="text-success">{"There are no password breaches. You are good to go."}</h6>
             }
         }
 
@@ -134,8 +134,15 @@ export default
                     </div>
 
                     <div class="col-9">
-                        {p}
-                        {o}
+                        <div class="card">
+
+                            <div class="card-header fw-bold">
+                                {p}
+                            </div>
+
+                            {o}
+
+                        </div>
                     </div>
                 </div>
             </div>
