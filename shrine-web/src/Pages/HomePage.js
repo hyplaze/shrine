@@ -16,7 +16,7 @@ const HomePage = () => {
       method: "post",
       url: "/logout",
       data: {
-        cookie: localStorage.get("cookie"),
+        cookie: localStorage.getItem("cookie"),
       },
     });
     if (response.data.Status === true) {
