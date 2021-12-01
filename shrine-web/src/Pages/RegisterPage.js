@@ -11,10 +11,13 @@ function RegisterPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
   async function registerUser(event) {
     event.preventDefault();
     if (email === "" || password === "") {
+      setPassword("")
+      setShowPassword(true);
       alert("Please enter your email and password");
       return;
     }
@@ -39,9 +42,18 @@ function RegisterPage() {
 
     if (resStatus) {
       history.push("/login");
+      setTimeout(function() {
+        setShowPassword(true);
+      }, 3000);
     } else {
+      setPassword("")
+      setShowPassword(true);
       alert("User already exist.");
     }
+  }
+
+  const handleShowPassword = (e) =>{
+    setShowPassword(!showPassword);
   }
 
   return (
@@ -72,10 +84,12 @@ function RegisterPage() {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 class="form-control"
                 id="exampleInputPassword1"
+                onClick={handleShowPassword}
+                value={password}
               />
             </div>
             <div
@@ -104,6 +118,7 @@ function RegisterPage() {
             onClick={() => {
               history.push("/");
               history.go();
+              setShowPassword(true);
             }}
           >
             About

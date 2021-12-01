@@ -10,6 +10,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(true);
 
   async function loginUser(event) {
     event.preventDefault();
@@ -38,10 +39,21 @@ function LoginPage() {
       // localStorage.setItem("token", data.user); local storage, this is Hanry's stuff
       console.log("Login successful");
       window.location.href = "/home";
+      setTimeout(function() {
+        setShowPassword(true);
+      }, 3000);
     } else {
+      setPassword("")
+      setShowPassword(true);
       alert("Please check your username and password");
     }
   }
+
+  const handleShowPassword = (e) =>{
+    setShowPassword(!showPassword);
+  }
+
+
 
   return (
     <div class="container-fluid">
@@ -68,10 +80,12 @@ function LoginPage() {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 class="form-control"
                 id="exampleInputPassword1"
+                value={password}
+                onClick={handleShowPassword}
               />
             </div>
             <div
@@ -90,6 +104,7 @@ function LoginPage() {
             onClick={() => {
               history.push("/register");
               history.go();
+              setShowPassword(true);
             }}
           >
             Not Registered? Sign Up

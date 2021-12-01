@@ -16,6 +16,7 @@ export default class Passwords extends Component {
       showEditModal: false,
       entryInModal: {},
       refresh: this.props.refresh,
+      showPassword: false,
     };
     this.handleOpenInspectModal = this.handleOpenInspectModal.bind(this);
     this.handleCloseInspectModal = this.handleCloseInspectModal.bind(this);
@@ -26,6 +27,7 @@ export default class Passwords extends Component {
       this.handleSaveAndCloseEditModal.bind(this);
     this.handleCloseEditModal = this.handleCloseEditModal.bind(this);
     this.EditModal = this.EditModal.bind(this);
+    this.handleShowPassword = this.handleShowPassword.bind(this);
   }
 
   // componentDidUpdate(prevProps) {
@@ -56,7 +58,12 @@ export default class Passwords extends Component {
   handleCloseInspectModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showInspectModal: false });
+    this.setState({showPassword:false});
   };
+
+  handleShowPassword = (prevState) => {
+    this.setState({showPassword:! this.state.showPassword});
+  }
 
   InspectModal = () => {
     return (
@@ -112,10 +119,11 @@ export default class Passwords extends Component {
                 </label>
                 <input
                   readOnly
-                  type="password"
+                  type={this.state.showPassword ? "text" : "password"}
                   class="form-control"
                   id="recipient-name"
                   value={this.state.entryInModal.password}
+                  onClick={this.handleShowPassword}
                 ></input>
               </div>
               <div class="form-group">
@@ -222,11 +230,13 @@ export default class Passwords extends Component {
     }
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
+    this.setState({showPassword:false});
   };
 
   handleCloseEditModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
+    this.setState({showPassword:false});
   };
 
   EditModal = () => {
@@ -303,7 +313,7 @@ export default class Passwords extends Component {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={this.state.showPassword ? "text" : "password"}
                   class="form-control"
                   id="recipient-name"
                   onChange={(e) => {
@@ -315,6 +325,7 @@ export default class Passwords extends Component {
                     });
                   }}
                   value={this.state.entryInModal.password}
+                  onClick={this.handleShowPassword}
                 ></input>
               </div>
               <div class="form-group">
