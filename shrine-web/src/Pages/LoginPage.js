@@ -44,66 +44,69 @@ function LoginPage() {
   }
 
   return (
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-4 h100" style={{ paddingTop: "15%" }}>
-          <div class="row justify-content-center">
-            <img src={logo} class="h-25 w-25" alt="Responsive" />
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-3">
+          <img src={logo} class="img-fluid d-flex" />
+        </div>
+        <div class="col-3 mx-3">
+          <h1>Log In</h1>
+          <div class="row mt-3">
+            <form onSubmit={loginUser}>
+              <div class>
+                <label for="exampleInputEmail1" class="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class>
+                <label class="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  class="form-control"
+                />
+              </div>
+              <div class="d-flex justify-content-between mt-3">
+                <div
+                  class="btn-group"
+                  role="group"
+                >
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      history.push("/register");
+                      history.go();
+                    }}
+                  >
+                    Not Registered? Sign Up
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      history.push("/");
+                      history.go();
+                    }}
+                  >
+                    Go back
+                  </button>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Log In
+                  </button>
+              </div>
+            </form>
           </div>
-          <form onSubmit={loginUser}>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                class="form-control"
-                id="exampleInputPassword1"
-              />
-            </div>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic outlined example"
-            >
-              <button type="submit" class="btn btn-outline-primary">
-                Log In
-              </button>
-            </div>
-          </form>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/register");
-              history.go();
-            }}
-          >
-            Not Registered? Sign Up
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/");
-              history.go();
-            }}
-          >
-            About
-          </button>
         </div>
       </div>
     </div>
