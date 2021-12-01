@@ -414,7 +414,7 @@ export default class Passwords extends Component {
             return (
               <div class="card border-grey mb-2">
                 <div class="row d-flex align-items-center">
-                  <div class="col-2">
+                  <div class="col-xxl-2 col-xl-3 col-lg-4">
                     <div
                       class="btn-group"
                       role="group"
@@ -438,8 +438,8 @@ export default class Passwords extends Component {
                       </button>
                     </div>
                   </div>
-                  <div class="col-9">
-                    <div class="row ">
+                  <div class="col-xxl-9 col-xl-8 col-lg-7">
+                    <div class="row">
                       <div class="col-4">
                         <div class="row">
                           <div class="col-7">
