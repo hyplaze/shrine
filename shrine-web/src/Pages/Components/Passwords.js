@@ -17,6 +17,8 @@ export default class Passwords extends Component {
       showInspectModal: false,
       showEditModal: false,
       entryInModal: {},
+      decryptedEntry: {},
+      remainingSeconds: 0,
       refresh: this.props.refresh,
       showPassword: false,
     };
@@ -30,6 +32,9 @@ export default class Passwords extends Component {
     this.handleCloseEditModal = this.handleCloseEditModal.bind(this);
     this.EditModal = this.EditModal.bind(this);
     this.handleShowPassword = this.handleShowPassword.bind(this);
+
+    this.countDown = this.countDown.bind(this);
+    this.timer = 0;
   }
 
   // componentDidUpdate(prevProps) {
@@ -39,7 +44,23 @@ export default class Passwords extends Component {
   //   }
   // }
 
+  countDown() {
+    let remainingSeconds = this.state.remainingSeconds - 1;
+    remainingSeconds = Math.floor(
+      (Date.now() - Math.floor(Date.now() / 30000) * 30000) / 1000
+    );
+    this.setState({ remainingSeconds });
+    if (remainingSeconds === 0) {
+      this.handleUpdate2FA();
+      this.setState({ remainingSeconds: 30 });
+    }
+  }
+
   handleOpenInspectModal = async (entry) => {
+    this.timer = setInterval(() => {
+      this.countDown();
+    }, 1000);
+
     this.setState({
       showInspectModal: true,
 
@@ -53,6 +74,20 @@ export default class Passwords extends Component {
           await decrypt(entry.twoFA, localStorage.getItem("stretchedMasterKey"))
         ),
       },
+      decryptedEntry: {
+        ...entry,
+        password: await decrypt(
+          entry.password,
+          localStorage.getItem("stretchedMasterKey")
+        ),
+        twoFA: await decrypt(
+          entry.twoFA,
+          localStorage.getItem("stretchedMasterKey")
+        ),
+      },
+      remainingSeconds: Math.floor(
+        (Date.now() - Math.floor(Date.now() / 30000) * 30000) / 1000
+      ),
     });
   };
 
@@ -60,13 +95,27 @@ export default class Passwords extends Component {
     this.setState({ entryInModal: {} });
     this.setState({ showInspectModal: false });
     this.setState({ showPassword: false });
+    this.setState({ decryptedEntry: {} });
+    this.setState({ remainingSeconds: 0 });
+    clearInterval(this.timer);
   };
 
   handleShowPassword = (prevState) => {
     this.setState({ showPassword: !this.state.showPassword });
   };
 
+  handleUpdate2FA = async () => {
+    console.log("handleUpdate2FA", this.state.decryptedEntry);
+    this.setState({
+      entryInModal: {
+        ...this.state.entryInModal,
+        twoFA: await computeTOTP(this.state.decryptedEntry.twoFA),
+      },
+    });
+  };
+
   InspectModal = () => {
+    console.log(this.state.remainingSeconds);
     return (
       <>
         <Modal
@@ -77,7 +126,11 @@ export default class Passwords extends Component {
             <Modal.Title>Inspect a box</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={(e)=>{e.preventDefault();}}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Name
@@ -90,8 +143,14 @@ export default class Passwords extends Component {
                     id="recipient-name"
                     value={this.state.entryInModal.boxname}
                   ></input>
-                  <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.boxname);}}>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.boxname
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -108,8 +167,14 @@ export default class Passwords extends Component {
                     id="recipient-name"
                     value={this.state.entryInModal.url}
                   ></input>
-                  <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.url);}}>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.url
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -126,8 +191,14 @@ export default class Passwords extends Component {
                     id="recipient-name"
                     value={this.state.entryInModal.username}
                   ></input>
-                  <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.username);}}>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.username
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -145,13 +216,21 @@ export default class Passwords extends Component {
                     value={this.state.entryInModal.password}
                     onClick={this.handleShowPassword}
                   ></input>
-                  <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.password);}}>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.password
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
                 <div class="form-text">
-                  {"Click on password to "+(this.state.showPassword ? "hide" : "show")+ " password"}
+                  {"Click on password to " +
+                    (this.state.showPassword ? "hide" : "show") +
+                    " password"}
                 </div>
               </div>
               <div class="form-group">
@@ -164,10 +243,27 @@ export default class Passwords extends Component {
                     type="text"
                     class="form-control"
                     id="recipient-name"
-                    value={this.state.entryInModal.twoFA}
+                    value={
+                      this.state.entryInModal.twoFA +
+                      " (refresh in " +
+                      (30 -
+                        Math.floor(
+                          (Date.now() -
+                            Math.floor(Date.now() / 30000) * 30000) /
+                            1000
+                        )) +
+                      " seconds)"
+                    }
+                    onClick={this.handleUpdate2FA}
                   ></input>
-                  <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.twoFA);}}>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.twoFA
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -284,28 +380,38 @@ export default class Passwords extends Component {
             <Modal.Title>Edit a box</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={(e)=>{e.preventDefault();}}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Name
                 </label>
                 <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        boxname: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.boxname}
-                ></input>
-                <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.boxname);}}>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          boxname: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.boxname}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.boxname
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -315,22 +421,28 @@ export default class Passwords extends Component {
                   URL
                 </label>
                 <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        url: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.url}
-                ></input>
-                <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.url);}}>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          url: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.url}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.url
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -340,22 +452,28 @@ export default class Passwords extends Component {
                   Username
                 </label>
                 <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        username: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.username}
-                ></input>
-                <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.username);}}>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          username: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.username}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.username
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -365,52 +483,65 @@ export default class Passwords extends Component {
                   Password
                 </label>
                 <div class="input-group mb-3">
-                <input
-                  type={this.state.showPassword ? "text" : "password"}
-                  class="form-control"
-                  id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        password: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.password}
-                  onClick={this.handleShowPassword}
-                ></input>
-                <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.password);}}>
+                  <input
+                    type={this.state.showPassword ? "text" : "password"}
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          password: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.password}
+                    onClick={this.handleShowPassword}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.password
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
                 <div class="form-text">
-                  {"Click on password to "+(this.state.showPassword ? "hide" : "show")+ " password"}
+                  {"Click on password to " +
+                    (this.state.showPassword ? "hide" : "show") +
+                    " password"}
                 </div>
-                
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   2FA
                 </label>
                 <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        twoFA: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.twoFA}
-                ></input>
-                <button class="btn btn-outline-primary" 
-                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.twoFA);}}>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    onChange={(e) => {
+                      this.setState({
+                        entryInModal: {
+                          ...this.state.entryInModal,
+                          twoFA: e.target.value,
+                        },
+                      });
+                    }}
+                    value={this.state.entryInModal.twoFA}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.twoFA
+                      );
+                    }}
+                  >
                     Copy
                   </button>
                 </div>
@@ -463,8 +594,8 @@ export default class Passwords extends Component {
     if (response.data.Status === true) this.state.refresh();
   };
   render = () => {
-    console.log("rendering");
-    console.log(this.state.entries);
+    // console.log("rendering");
+    // console.log(this.state.entries);
     return (
       <>
         <button
