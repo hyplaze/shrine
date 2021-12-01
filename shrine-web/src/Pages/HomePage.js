@@ -11,12 +11,12 @@ const HomePage = () => {
   const [textInput, setTextInput] = useState("");
   const [forceUpdate, setForceUpdate] = useState(0);
 
-  const logoutHandler = async (cookie) => {
+  const logoutHandler = async () => {
     const response = await axios({
       method: "post",
       url: "/logout",
       data: {
-        cookie: cookie,
+        cookie: localStorage.get("cookie"),
       },
     });
     if (response.data.Status === true) {
