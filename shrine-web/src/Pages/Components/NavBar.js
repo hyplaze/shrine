@@ -10,15 +10,10 @@ class NavBar extends Component {
       logoutHandler: props.logoutHandler,
     };
   }
-  render() {
-    let style1, style2;
-    if (this.state.page === "HomePage") {
-      style1 = "nav-link active";
-      style2 = "nav-link";
-    } else {
-      style1 = "nav-link";
-      style2 = "nav-link active";
-    }
+  render = () => {
+    let home = this.state.page === "HomePage" ? "nav-link active" : "nav-link"
+    let generator = this.state.page === "GeneratorPage" ? "nav-link active" : "nav-link"
+    let checker = this.state.page === "CheckerPage" ? "nav-link active" : "nav-link"
 
     return (
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -47,17 +42,17 @@ class NavBar extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class={style1} aria-current="page" href="/home">
+                <a class={home} aria-current="page" href="/home">
                   Home
                 </a>
               </li>
               <li class="nav-item">
-                <a class={style2} href="/generator">
+                <a class={generator} href="/generator">
                   Generator
                 </a>
               </li>
               <li class="nav-item">
-                <a class={style2} href="/checker">
+                <a class={checker} href="/checker">
                   Password-Pwned?
                 </a>
               </li>
@@ -72,7 +67,7 @@ class NavBar extends Component {
                 >
                   Account
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu">
                   <li>
                     <p class="dropdown-item">Hanry</p>
                   </li>

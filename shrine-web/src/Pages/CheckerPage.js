@@ -103,8 +103,7 @@ export default
                 p = <p class="text-danger">{"WARNING: Total " + this.state.value + " breaches"}</p>
                 for (var i = 0; i < this.state.value; i++) {
                     o.push(
-                        <p key={"b" + i}>{"In the box \"" + Object.keys(this.state.breached)[i] + "\""}</p>,
-                        <p key={"c" + i}>{"Its Password has been seen " + Object.values(this.state.breached)[i] + " times before"}</p>)
+                        <p key={"b" + i}>{"In the box \"" + Object.keys(this.state.breached)[i] + "\": password has been seen " + Object.values(this.state.breached)[i] + " times before."}</p>)
                 }
             } else {
                 p = <p class="text-success">{"There are no password breaches. You are good to go."}</p>
