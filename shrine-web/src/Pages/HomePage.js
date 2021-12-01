@@ -108,24 +108,23 @@ const HomePage = () => {
             <h2 class="m-2 p-1">Welcome, Bitch.</h2>
           </div>
           <div class="list-group m-1">
-            <form class="d-flex" style={{ marginTop: "2%" }}>
+            <form class="d-flex mt-2">
               <input
                 class="form-control me-2"
                 type="search"
                 placeholder="Search"
-                aria-label="Search"
                 value={textInput}
                 onChange={initiateSearch}
               />
               <button
                 class="btn btn-outline-success"
                 type="submit"
-                id="SearchAct"
               >
                 Search
               </button>
             </form>
-            <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time.</small></em></p>
+            <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time. You can 
+            <strong> copy</strong> an entry inside inspection window. </small></em></p>
           </div>
         </div>
         <div class="col-9">

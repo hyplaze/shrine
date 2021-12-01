@@ -22,7 +22,7 @@ export default class GeneratorPage extends Component {
         <div class="row">
           <NavBar page="GeneratorPage" />
         </div>
-        <div class="row" style={{ marginTop: "1%" }}>
+        <div class="row mt-3">
           <div class="col-3">
             <div class="list-group">
               <button

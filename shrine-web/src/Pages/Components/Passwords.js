@@ -144,6 +144,9 @@ export default class Passwords extends Component {
             </form>
           </Modal.Body>
           <Modal.Footer>
+            <Button variant="primary" onClick={this.handleCloseInspectModal}>
+              Copy Information
+            </Button>
             <Button variant="secondary" onClick={this.handleCloseInspectModal}>
               Close
             </Button>
@@ -412,7 +415,7 @@ export default class Passwords extends Component {
                       role="group"
                     >
                       <button
-                        class="btn btn-primary"
+                        class="btn btn-secondary"
                         onClick={async () => {
                           console.log(entry);
                           await this.handleOpenInspectModal(entry);
@@ -421,7 +424,7 @@ export default class Passwords extends Component {
                         Inspect
                       </button>
                       <button
-                        class="btn btn-secondary"
+                        class="btn btn-outline-primary"
                         onClick={() => {
                           this.handleOpenEditModal(entry);
                         }}
@@ -449,7 +452,7 @@ export default class Passwords extends Component {
                   <div class="col-1">
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn btn-outline-danger"
                       onClick={() => {
                         this.handleDelete(entry.boxid);
                       }}
