@@ -7,6 +7,8 @@ import axios from "../../axios/axiosConfig";
 
 import { encrypt, decrypt } from "../../crypto/encryption";
 
+import { computeHOTP, computeTOTP } from "../../twoFA/twoFA";
+
 export default class Passwords extends Component {
   constructor(props) {
     super(props);
@@ -47,9 +49,8 @@ export default class Passwords extends Component {
           entry.password,
           localStorage.getItem("stretchedMasterKey")
         ),
-        twoFA: await decrypt(
-          entry.twoFA,
-          localStorage.getItem("stretchedMasterKey")
+        twoFA: await computeTOTP(
+          await decrypt(entry.twoFA, localStorage.getItem("stretchedMasterKey"))
         ),
       },
     });
@@ -58,12 +59,12 @@ export default class Passwords extends Component {
   handleCloseInspectModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showInspectModal: false });
-    this.setState({showPassword:false});
+    this.setState({ showPassword: false });
   };
 
   handleShowPassword = (prevState) => {
-    this.setState({showPassword:! this.state.showPassword});
-  }
+    this.setState({ showPassword: !this.state.showPassword });
+  };
 
   InspectModal = () => {
     return (
@@ -128,7 +129,7 @@ export default class Passwords extends Component {
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  Password
+                  2FA
                 </label>
                 <input
                   readOnly
@@ -230,13 +231,13 @@ export default class Passwords extends Component {
     }
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
-    this.setState({showPassword:false});
+    this.setState({ showPassword: false });
   };
 
   handleCloseEditModal = () => {
     this.setState({ entryInModal: {} });
     this.setState({ showEditModal: false });
-    this.setState({showPassword:false});
+    this.setState({ showPassword: false });
   };
 
   EditModal = () => {
