@@ -11,13 +11,13 @@ function RegisterPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function registerUser(event) {
     event.preventDefault();
     if (email === "" || password === "") {
       setPassword("")
-      setShowPassword(true);
+      setShowPassword(false);
       alert("Please enter your email and password");
       return;
     }
@@ -42,12 +42,10 @@ function RegisterPage() {
 
     if (resStatus) {
       history.push("/login");
-      setTimeout(function() {
-        setShowPassword(true);
-      }, 3000);
+      setShowPassword(false);
     } else {
       setPassword("")
-      setShowPassword(true);
+      setShowPassword(false);
       alert("User already exist.");
     }
   }
@@ -63,7 +61,7 @@ function RegisterPage() {
           <div class="row justify-content-center">
             <img src={logo} class="h-25 w-25" alt="Responsive" />
           </div>
-          <form onSubmit={registerUser}>
+          <form onSubmit={(e)=>{e.preventDefault();}}>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
                 Email
@@ -83,21 +81,27 @@ function RegisterPage() {
               <label for="exampleInputPassword1" class="form-label">
                 Password
               </label>
+              <div class="input-group mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 class="form-control"
                 id="exampleInputPassword1"
-                onClick={handleShowPassword}
                 value={password}
               />
+              <button class="btn btn-outline-primary" 
+                  onClick={handleShowPassword}>
+                    {showPassword ? "hide" : "show"}
+                  </button>
+              </div>
             </div>
             <div
               class="btn-group"
               role="group"
               aria-label="Basic outlined example"
             >
-              <button type="submit" class="btn btn-outline-primary">
+              <button type="botton" class="btn btn-outline-primary"
+              onClick={registerUser}>
                 Sign Up
               </button>
             </div>
@@ -118,7 +122,7 @@ function RegisterPage() {
             onClick={() => {
               history.push("/");
               history.go();
-              setShowPassword(true);
+              setShowPassword(false);
             }}
           >
             About

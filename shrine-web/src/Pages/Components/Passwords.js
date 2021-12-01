@@ -77,67 +77,100 @@ export default class Passwords extends Component {
             <Modal.Title>Inspect a box</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form>
+            <form onSubmit={(e)=>{e.preventDefault();}}>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Name
                 </label>
-                <input
-                  readOnly
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  value={this.state.entryInModal.boxname}
-                ></input>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.boxname}
+                  ></input>
+                  <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.boxname);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   URL
                 </label>
-                <input
-                  readOnly
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  value={this.state.entryInModal.url}
-                ></input>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.url}
+                  ></input>
+                  <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.url);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Username
                 </label>
-                <input
-                  readOnly
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  value={this.state.entryInModal.username}
-                ></input>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.username}
+                  ></input>
+                  <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.username);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Password
                 </label>
-                <input
-                  readOnly
-                  type={this.state.showPassword ? "text" : "password"}
-                  class="form-control"
-                  id="recipient-name"
-                  value={this.state.entryInModal.password}
-                  onClick={this.handleShowPassword}
-                ></input>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type={this.state.showPassword ? "text" : "password"}
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.password}
+                    onClick={this.handleShowPassword}
+                  ></input>
+                  <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.password);}}>
+                    Copy
+                  </button>
+                </div>
+                <div class="form-text">
+                  {"Click on password to "+(this.state.showPassword ? "hide" : "show")+ " password"}
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   2FA
                 </label>
-                <input
-                  readOnly
-                  type="text"
-                  class="form-control"
-                  id="recipient-name"
-                  value={this.state.entryInModal.twoFA}
-                ></input>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.twoFA}
+                  ></input>
+                  <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.twoFA);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="message-text" class="col-form-label">
@@ -251,11 +284,12 @@ export default class Passwords extends Component {
             <Modal.Title>Edit a box</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form>
+            <form onSubmit={(e)=>{e.preventDefault();}}>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Name
                 </label>
+                <div class="input-group mb-3">
                 <input
                   type="text"
                   class="form-control"
@@ -270,11 +304,17 @@ export default class Passwords extends Component {
                   }}
                   value={this.state.entryInModal.boxname}
                 ></input>
+                <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.boxname);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   URL
                 </label>
+                <div class="input-group mb-3">
                 <input
                   type="text"
                   class="form-control"
@@ -289,11 +329,17 @@ export default class Passwords extends Component {
                   }}
                   value={this.state.entryInModal.url}
                 ></input>
+                <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.url);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Username
                 </label>
+                <div class="input-group mb-3">
                 <input
                   type="text"
                   class="form-control"
@@ -308,11 +354,17 @@ export default class Passwords extends Component {
                   }}
                   value={this.state.entryInModal.username}
                 ></input>
+                <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.username);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   Password
                 </label>
+                <div class="input-group mb-3">
                 <input
                   type={this.state.showPassword ? "text" : "password"}
                   class="form-control"
@@ -328,11 +380,21 @@ export default class Passwords extends Component {
                   value={this.state.entryInModal.password}
                   onClick={this.handleShowPassword}
                 ></input>
+                <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.password);}}>
+                    Copy
+                  </button>
+                </div>
+                <div class="form-text">
+                  {"Click on password to "+(this.state.showPassword ? "hide" : "show")+ " password"}
+                </div>
+                
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
                   2FA
                 </label>
+                <div class="input-group mb-3">
                 <input
                   type="text"
                   class="form-control"
@@ -347,6 +409,11 @@ export default class Passwords extends Component {
                   }}
                   value={this.state.entryInModal.twoFA}
                 ></input>
+                <button class="btn btn-outline-primary" 
+                  onClick={()=>{navigator.clipboard.writeText(this.state.entryInModal.twoFA);}}>
+                    Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="message-text" class="col-form-label">

@@ -10,7 +10,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function loginUser(event) {
     event.preventDefault();
@@ -39,12 +39,10 @@ function LoginPage() {
       // localStorage.setItem("token", data.user); local storage, this is Hanry's stuff
       console.log("Login successful");
       window.location.href = "/home";
-      setTimeout(function() {
-        setShowPassword(true);
-      }, 3000);
+        setShowPassword(false);
     } else {
       setPassword("")
-      setShowPassword(true);
+      setShowPassword(false);
       alert("Please check your username and password");
     }
   }
@@ -62,7 +60,7 @@ function LoginPage() {
           <div class="row justify-content-center">
             <img src={logo} class="h-25 w-25" alt="Responsive" />
           </div>
-          <form onSubmit={loginUser}>
+          <form onSubmit={(e)=>{e.preventDefault();}}>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
                 Email
@@ -79,21 +77,27 @@ function LoginPage() {
               <label for="exampleInputPassword1" class="form-label">
                 Password
               </label>
+              <div class="input-group mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 onChange={(e) => setPassword(e.target.value)}
                 class="form-control"
                 id="exampleInputPassword1"
                 value={password}
-                onClick={handleShowPassword}
               />
+              <button class="btn btn-outline-primary" 
+                  onClick={handleShowPassword}>
+                    {showPassword ? "hide" : "show"}
+                  </button>
+              </div>
             </div>
             <div
               class="btn-group"
               role="group"
               aria-label="Basic outlined example"
             >
-              <button type="submit" class="btn btn-outline-primary">
+              <button type="botton" class="btn btn-outline-primary"
+              onClick={loginUser}>
                 Log In
               </button>
             </div>
@@ -104,7 +108,7 @@ function LoginPage() {
             onClick={() => {
               history.push("/register");
               history.go();
-              setShowPassword(true);
+              setShowPassword(false);
             }}
           >
             Not Registered? Sign Up
