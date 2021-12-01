@@ -11,7 +11,6 @@ import MainPage from "./Pages/MainPage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import GeneratorPage from "./Pages/GeneratorPage";
-import CheckerPage from "./Pages/CheckerPage";
 import NotFoundPage from "./Pages/NotFoundPage";
 
 class App extends Component {
@@ -24,7 +23,6 @@ class App extends Component {
           <Route path="/register" component={RegisterPage} />
           <Route path="/home" component={HomePage} />
           <Route path="/generator" component={GeneratorPage} />
-          <Route path="/checker" component={CheckerPage} />
           <Route path="*" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>

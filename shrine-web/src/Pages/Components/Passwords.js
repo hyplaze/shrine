@@ -86,6 +86,7 @@ export default class Passwords extends Component {
                 <label for="recipient-name" class="col-form-label">
                   URL
                 </label>
+                <div class="input-group mb-3">
                 <input
                   readOnly
                   type="text"
@@ -93,6 +94,10 @@ export default class Passwords extends Component {
                   id="recipient-name"
                   value={this.state.entryInModal.url}
                 ></input>
+                <button class="btn btn-outline-primary">
+                  Copy
+                  </button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
@@ -120,7 +125,7 @@ export default class Passwords extends Component {
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  Password
+                  Two-Factor Authorization Code
                 </label>
                 <input
                   readOnly
@@ -145,7 +150,7 @@ export default class Passwords extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary" onClick={this.handleCloseInspectModal}>
-              Copy Information
+              Copy All
             </Button>
             <Button variant="secondary" onClick={this.handleCloseInspectModal}>
               Close

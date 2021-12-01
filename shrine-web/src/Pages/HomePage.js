@@ -3,6 +3,7 @@ import { Route, useHistory } from "react-router-dom";
 import axios from "../axios/axiosConfig";
 import NavBar from "./Components/NavBar";
 import Passwords from "./Components/Passwords";
+import Checker from "./Components/Checker";
 
 const HomePage = () => {
   const history = useHistory();
@@ -123,9 +124,10 @@ const HomePage = () => {
                 Search
               </button>
             </form>
-            <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time. You can 
-            <strong> copy</strong> an entry inside inspection window. </small></em></p>
+            
           </div>
+          <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time. You can 
+            <strong> copy</strong> an entry inside inspection window. </small></em></p>
         </div>
         <div class="col-9">
           <Passwords
