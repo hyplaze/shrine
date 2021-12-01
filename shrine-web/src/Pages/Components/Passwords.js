@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "../../axios/axiosConfig";
 // import AddPasswordModal from "./AddPasswordModal";
 
+import { encrypt, decrypt } from "../../crypto/encryption";
+
 export default class Passwords extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,18 @@ export default class Passwords extends Component {
   //   }
   // }
 
-  handleOpenInspectModal = () => {
+  handleOpenInspectModal = async (entry) => {
+    console.log(entry.password);
+    console.log(entry.twoFA);
+    entry.password = await decrypt(
+      entry.password,
+      localStorage.getItem("stretchedMasterKey")
+    );
+    entry.twoFA = entry.password = await decrypt(
+      entry.twoFA,
+      localStorage.getItem("stretchedMasterKey")
+    );
+    this.setState({ entryInModal: entry });
     this.setState({ showInspectModal: true });
   };
 
@@ -63,14 +76,6 @@ export default class Passwords extends Component {
                   type="text"
                   class="form-control"
                   id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        boxname: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.boxname}
                 ></input>
               </div>
@@ -83,14 +88,6 @@ export default class Passwords extends Component {
                   type="text"
                   class="form-control"
                   id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        url: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.url}
                 ></input>
               </div>
@@ -103,14 +100,6 @@ export default class Passwords extends Component {
                   type="text"
                   class="form-control"
                   id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        username: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.username}
                 ></input>
               </div>
@@ -123,14 +112,6 @@ export default class Passwords extends Component {
                   type="password"
                   class="form-control"
                   id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        password: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.password}
                 ></input>
               </div>
@@ -143,14 +124,6 @@ export default class Passwords extends Component {
                   type="text"
                   class="form-control"
                   id="recipient-name"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        twoFA: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.twoFA}
                 ></input>
               </div>
@@ -162,14 +135,6 @@ export default class Passwords extends Component {
                   readOnly
                   class="form-control"
                   id="message-text"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        notes: e.target.value,
-                      },
-                    });
-                  }}
                   value={this.state.entryInModal.notes}
                 ></textarea>
               </div>
@@ -193,6 +158,21 @@ export default class Passwords extends Component {
     console.log("save and close");
     console.log("current entryinmodal is", this.state.entryInModal);
     let response = null;
+    const data = {
+      cookie: localStorage.getItem("cookie"),
+      boxid: this.state.entryInModal.boxid,
+      boxname: this.state.entryInModal.boxname,
+      twoFA: await encrypt(
+        this.state.entryInModal.twoFA,
+        localStorage.getItem("stretchedMasterKey")
+      ),
+      username: this.state.entryInModal.username,
+      url: this.state.entryInModal.url,
+      password: await encrypt(
+        this.state.entryInModal.password,
+        localStorage.getItem("stretchedMasterKey")
+      ),
+    };
     if (
       this.props.entries
         .map((entry) => entry.boxid)
@@ -202,30 +182,14 @@ export default class Passwords extends Component {
       response = await axios({
         method: "post",
         url: "/changebox",
-        data: {
-          cookie: localStorage.getItem("cookie"),
-          boxid: this.state.entryInModal.boxid,
-          boxname: this.state.entryInModal.boxname,
-          twoFA: this.state.entryInModal.twoFA,
-          username: this.state.entryInModal.username,
-          url: this.state.entryInModal.url,
-          password: this.state.entryInModal.password,
-        },
+        data: data,
       });
     } else {
       // should be add
       response = await axios({
         method: "post",
         url: "/addbox",
-        data: {
-          cookie: localStorage.getItem("cookie"),
-          boxid: this.state.entryInModal.boxid,
-          boxname: this.state.entryInModal.boxname,
-          twoFA: this.state.entryInModal.twoFA,
-          username: this.state.entryInModal.username,
-          url: this.state.entryInModal.url,
-          password: this.state.entryInModal.password,
-        },
+        data: data,
       });
     }
     if (response.data.Status === true) this.state.refresh();
@@ -452,9 +416,9 @@ export default class Passwords extends Component {
                         <Button
                           class="list-group-item list-group-item-action"
                           aria-current="true"
-                          onClick={() => {
-                            this.setState({ entryInModal: entry });
-                            this.handleOpenInspectModal();
+                          onClick={async () => {
+                            console.log(entry);
+                            await this.handleOpenInspectModal(entry);
                           }}
                         >
                           Inspect

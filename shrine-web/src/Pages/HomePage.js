@@ -44,7 +44,10 @@ const HomePage = () => {
   const searchHandler = async (boxes) => {
     const results = [];
     for (let i = 0; i < boxes.length; i++) {
-      if (boxes[i].boxname.includes("name")) {
+      if (
+        true
+        //boxes[i].boxname.includes("name")
+      ) {
         results.push(boxes[i]);
       }
     }
