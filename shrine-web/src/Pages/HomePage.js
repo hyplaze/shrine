@@ -102,8 +102,7 @@ const HomePage = () => {
       <div class="row">
         <NavBar page="HomePage" logoutHandler={logoutHandler} />
       </div>
-
-      <div class="row" style={{ marginTop: "1%" }}>
+      <div class="row mt-2">
         <div class="col-3">
           <div class="list-group">
             <form class="d-flex" style={{ marginTop: "2%" }}>
