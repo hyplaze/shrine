@@ -104,7 +104,10 @@ const HomePage = () => {
       </div>
       <div class="row mt-2">
         <div class="col-3">
-          <div class="list-group">
+          <div class="card border-grey">
+            <h2 class="m-2 p-1">Welcome, Bitch.</h2>
+          </div>
+          <div class="list-group m-1">
             <form class="d-flex" style={{ marginTop: "2%" }}>
               <input
                 class="form-control me-2"
@@ -122,6 +125,7 @@ const HomePage = () => {
                 Search
               </button>
             </form>
+            <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time.</small></em></p>
           </div>
         </div>
         <div class="col-9">

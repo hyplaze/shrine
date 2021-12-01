@@ -243,7 +243,7 @@ export default class Passwords extends Component {
             <form>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  Name
+                  Website Name
                 </label>
                 <input
                   type="text"
@@ -319,7 +319,7 @@ export default class Passwords extends Component {
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  2FA
+                  Two-Factor Authorization Code
                 </label>
                 <input
                   type="text"
@@ -401,67 +401,67 @@ export default class Passwords extends Component {
             Add a new Password
           </button>
         </div>
-        <div class="row mt-3">
-          <div class="col">
-            <ol class="list-group list-group-numbered">
-              {this.state.entries.map((entry) => {
-                return (
-                  <div class="row">
-                    <div class="col-2">
-                      <div
-                        class="btn-group"
-                        role="group"
+        <ol class="list-group list-group-numbered mt-3">
+          {this.state.entries.map((entry) => {
+            return (
+              <div class="card border-grey mb-2">
+                <div class="row d-flex align-items-center">
+                  <div class="col-2">
+                    <div
+                      class="btn-group"
+                      role="group"
+                    >
+                      <button
+                        class="btn btn-primary"
+                        onClick={async () => {
+                          console.log(entry);
+                          await this.handleOpenInspectModal(entry);
+                        }}
                       >
-                        <button
-                          class="btn btn-outline-primary"
-                          onClick={async () => {
-                            console.log(entry);
-                            await this.handleOpenInspectModal(entry);
-                          }}
-                        >
-                          Inspect
-                        </button>
-                        <button
-                          class="btn btn-outline-primary"
-                          onClick={() => {
-                            this.handleOpenEditModal(entry);
-                          }}
-                        >
-                          Change
-                        </button>
-                      </div>
+                        Inspect
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        onClick={() => {
+                          this.handleOpenEditModal(entry);
+                        }}
+                      >
+                        Change
+                      </button>
                     </div>
-                    <div class="col-9">
-                      <div class="card border-grey mb-2">
-                        <div class="row ms-2">
-                          <div class="col-4" style={{ paddingLeft: "2%" }}>
-                            <div class="list-group">
-                              <div class="fw-bold">
-                                {entry.boxname}
-                              </div>
-                              {entry.url}
+                  </div>
+                  <div class="col-9">
+                    <div class="row ">
+                      <div class="col-4">
+                        <div class="row">
+                          <div class="col-5">
+                            <div class="fw-bold">
+                              {entry.boxname}
                             </div>
+                          </div>
+                          <div class="col-7">
+                            {entry.url}
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-1">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        onClick={() => {
-                          this.handleDelete(entry.boxid);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </div>
                   </div>
-                );
-              })}
-            </ol>
-          </div>
-        </div>
+                  <div class="col-1">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      onClick={() => {
+                        this.handleDelete(entry.boxid);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </ol>
         <this.EditModal />
         <this.InspectModal />
       </>
