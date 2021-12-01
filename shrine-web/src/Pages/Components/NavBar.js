@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import logo from "../../Assets/logo.png";
 import "../../index.css";
+import axios from "../../axios/axiosConfig";
+import {withRouter} from "react-router-dom"
 
 class NavBar extends Component {
   constructor(props) {
@@ -9,6 +11,23 @@ class NavBar extends Component {
       page: props.page,
       logoutHandler: props.logoutHandler,
     };
+
+    this.logoutHandler = this.logoutHandler.bind(this);
+  }
+
+  async logoutHandler(){
+    const response = await axios({
+      method: "post",
+      url: "/logout",
+      data: {
+        cookie: localStorage.getItem("cookie"),
+      },
+    });
+    if (response.data.Status === true) {
+      localStorage.clear();
+      this.props.history.push("/");
+      this.props.history.go();
+    }
   }
   render() {
     let style1, style2;
@@ -83,9 +102,7 @@ class NavBar extends Component {
                     <button
                       class="dropdown-item"
                       onClick={() => {
-                        this.state.logoutHandler(
-                          localStorage.getItem("cookie")
-                        );
+                        this.logoutHandler();
                       }}
                     >
                       Log out
@@ -101,4 +118,4 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+export default withRouter(NavBar);

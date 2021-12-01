@@ -11,20 +11,6 @@ const HomePage = () => {
   const [textInput, setTextInput] = useState("");
   const [forceUpdate, setForceUpdate] = useState(0);
 
-  const logoutHandler = async () => {
-    const response = await axios({
-      method: "post",
-      url: "/logout",
-      data: {
-        cookie: localStorage.getItem("cookie"),
-      },
-    });
-    if (response.data.Status === true) {
-      localStorage.clear();
-      history.push("/");
-      history.go();
-    }
-  };
 
   const retrieveBoxesIndex = async () => {
     const response = await axios({
@@ -100,7 +86,7 @@ const HomePage = () => {
   return (
     <div class="container-fluid">
       <div class="row">
-        <NavBar page="HomePage" logoutHandler={logoutHandler} />
+        <NavBar page="HomePage"/>
       </div>
 
       <div class="row" style={{ marginTop: "1%" }}>
