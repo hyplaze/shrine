@@ -557,10 +557,10 @@ export default class Passwords extends Component {
         <div class="d-grid">
           <button
             class="btn btn-primary mt-1"
-            onClick={() => {
+            onClick={async () => {
               const entry = {};
               entry.boxid = uuidv4();
-              this.handleOpenEditModal(entry);
+              await this.handleOpenEditModal(entry);
             }}
           >
             Add a new Password

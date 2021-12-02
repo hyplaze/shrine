@@ -39,7 +39,7 @@ async function getBreach() {
 
       function createDictionary(i) {
         const pwnd_pair = i.split(":");
-        if (pwnd_pair[0] == digestEnd) {
+        if (pwnd_pair[0] === digestEnd) {
           pwnd_dict[item.boxname] = pwnd_pair[1];
         }
       }
@@ -77,7 +77,7 @@ export default class CheckerPage extends Component {
     let q; //text explain what you should do, what does this check mean
     if (this.state.pressed) {
       //[1] make the output look nicer
-      if (this.state.value != 0) {
+      if (this.state.value !== 0) {
         p = (
           <h6 class="text-danger">
             {"WARNING: Total " + this.state.value + " breaches"}

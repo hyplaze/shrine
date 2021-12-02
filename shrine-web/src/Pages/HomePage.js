@@ -57,7 +57,7 @@ const HomePage = () => {
 
   useEffect(() => {
     retrieveBoxesIndex();
-  });
+  }, [history]);
 
   return (
     <div class="container-fluid">
