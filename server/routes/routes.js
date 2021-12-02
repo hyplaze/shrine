@@ -22,4 +22,6 @@ router.post('/logout', auth.verifyToken, controller.logout);
 
 router.post('/basicrequest', auth.verifyToken, controller.basicrequest);
 
+router.post('/validcookie', auth.verifyToken, controller.validcookie);
+
 module.exports = router;

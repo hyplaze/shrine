@@ -245,3 +245,20 @@ exports.logout = async function(req, res){
     return res.json({Status: false,Error:"unknown error"});
   }
 };
+
+exports.validcookie = async function(req, res){
+  try{
+    if(req.user == null){
+      return res.json({Status: false,
+                       Error:"missing or invalid token"});
+    }
+    if(blacklist.includes(req.body.cookie)){
+      return res.json({Status:false,
+                      Error:"user already logged out, token invalid"});
+    }
+    return res.json({Status:true});
+  }
+  catch{
+    return res.json({Status: false,Error:"unknown error"});
+  }
+};
