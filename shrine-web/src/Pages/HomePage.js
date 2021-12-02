@@ -21,18 +21,12 @@ const HomePage = () => {
       },
     });
     setBoxes(response.data);
-    console.log("get response");
-    console.log(response.data);
-    console.log(boxes);
   };
 
   const searchHandler = async (boxes) => {
     const results = [];
 
-    console.log("I am searching for " + textInput);
-
     if (textInput.length === 0) {
-      console.log("So we set with no search text");
       setSearchResults(boxes);
     } else {
       for (const box of boxes) {
@@ -44,7 +38,6 @@ const HomePage = () => {
           results.push(box);
         }
       }
-      console.log("So we set with search text");
       setSearchResults(results);
     }
     setForceUpdate(forceUpdate + 1);
@@ -59,17 +52,11 @@ const HomePage = () => {
   }, [boxes]);
 
   useEffect(() => {
-    console.log("the input is now " + textInput);
     retrieveBoxesIndex();
   }, [textInput]);
 
   useEffect(() => {
     async function checkLogin() {
-      console.log("cookie in localStorage:", localStorage.getItem("cookie"));
-      console.log(
-        "smk in localStorage",
-        localStorage.getItem("stretchedMasterKey")
-      );
       const response = await axios({
         method: "post",
         url: "/validcookie",
@@ -88,7 +75,6 @@ const HomePage = () => {
         localStorage.clear();
         history.replace("/login");
       } else {
-        console.log("successfully have cookie and stretchedMasterKey");
         retrieveBoxesIndex();
       }
     }

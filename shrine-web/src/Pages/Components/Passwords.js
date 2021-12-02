@@ -36,13 +36,6 @@ export default class Passwords extends Component {
     this.timer = 0;
   }
 
-  // componentDidUpdate(prevProps) {
-  //   console.log("componentDidUpdate", prevProps.entries, this.props.entries);
-  //   if (prevProps.entries !== this.props.entries) {
-  //     this.setState({ entries: this.props.entries });
-  //   }
-  // }
-
   countDown() {
     let remainingSeconds = this.state.remainingSeconds - 1;
     remainingSeconds = Math.floor(
@@ -104,7 +97,6 @@ export default class Passwords extends Component {
   };
 
   handleUpdate2FA = async () => {
-    console.log("handleUpdate2FA", this.state.decryptedEntry);
     this.setState({
       entryInModal: {
         ...this.state.entryInModal,
@@ -114,7 +106,6 @@ export default class Passwords extends Component {
   };
 
   InspectModal = () => {
-    console.log(this.state.remainingSeconds);
     return (
       <>
         <Modal
@@ -299,24 +290,22 @@ export default class Passwords extends Component {
         password:
           "password" in entry
             ? await decrypt(
-              entry.password,
-              localStorage.getItem("stretchedMasterKey")
-            )
+                entry.password,
+                localStorage.getItem("stretchedMasterKey")
+              )
             : "",
         twoFA:
           "twoFA" in entry
             ? await decrypt(
-              entry.twoFA,
-              localStorage.getItem("stretchedMasterKey")
-            )
+                entry.twoFA,
+                localStorage.getItem("stretchedMasterKey")
+              )
             : "",
       },
     });
   };
 
   handleSaveAndCloseEditModal = async () => {
-    console.log("save and close");
-    console.log("current entryinmodal is", this.state.entryInModal);
     let response = null;
     const data = {
       cookie: localStorage.getItem("cookie"),
@@ -338,23 +327,21 @@ export default class Passwords extends Component {
         .map((entry) => entry.boxid)
         .includes(this.state.entryInModal.boxid)
     ) {
-      // should be edit
+      // then this should be edit
       response = await axios({
         method: "post",
         url: "/changebox",
         data: data,
       });
     } else {
-      // should be add
+      // then this should be add
       response = await axios({
         method: "post",
         url: "/addbox",
         data: data,
       });
     }
-    console.log("response is", response);
     if (response.data.Status === true) {
-      console.log("We refresh");
       this.state.refresh();
     }
     this.setState({ entryInModal: {} });
@@ -592,9 +579,8 @@ export default class Passwords extends Component {
     });
     if (response.data.Status === true) this.state.refresh();
   };
+
   render = () => {
-    // console.log("rendering");
-    // console.log(this.state.entries);
     return (
       <div class="container-fluid">
         <div class="d-grid">
@@ -604,7 +590,6 @@ export default class Passwords extends Component {
               const entry = {};
               entry.boxid = uuidv4();
               this.handleOpenEditModal(entry);
-              console.log("open");
             }}
           >
             Add a new Password
@@ -616,14 +601,10 @@ export default class Passwords extends Component {
               <div class="card border-grey mb-2">
                 <div class="row d-flex align-items-center">
                   <div class="col-xxl-2 col-xl-3 col-lg-4">
-                    <div
-                      class="btn-group"
-                      role="group"
-                    >
+                    <div class="btn-group" role="group">
                       <button
                         class="btn btn-secondary"
                         onClick={async () => {
-                          console.log(entry);
                           await this.handleOpenInspectModal(entry);
                         }}
                       >
@@ -644,31 +625,24 @@ export default class Passwords extends Component {
                       <div class="col-10">
                         <div class="row">
                           <div class="col-5">
-                            <div class="fw-bold">
-                              {entry.boxname}
-                            </div>
+                            <div class="fw-bold">{entry.boxname}</div>
                           </div>
-                          <div class="col-5">
-                            {entry.url}
-                          </div>
+                          <div class="col-5">{entry.url}</div>
                         </div>
                       </div>
                       <div class="col-2">
-                          <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            onClick={() => {
-                              this.handleDelete(entry.boxid);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          onClick={() => {
+                            this.handleDelete(entry.boxid);
+                          }}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
-                    
                   </div>
-            
                 </div>
               </div>
             );

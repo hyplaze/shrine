@@ -59,7 +59,6 @@ export const genCredential = async (email, password) => {
       false
     )
     .then((stretched_key) => {
-      // console.log("In the then", stretched_key);
       return encode(stretched_key);
     });
   const masterPasswordHash = crypto.subtle
@@ -76,6 +75,5 @@ export const genCredential = async (email, password) => {
     .then((hash) => {
       return encode(hash);
     });
-  // console.log("In credentials", stretchedMasterKey, masterPasswordHash);
   return Promise.all([stretchedMasterKey, masterPasswordHash]);
 };

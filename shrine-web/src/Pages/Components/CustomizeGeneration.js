@@ -11,7 +11,11 @@ export default class CustomizeGeneration extends Component {
       p_symbols: false,
       p_uppercase: false,
       p_strict: false,
-      password: <span class="text-success inline">Click here to generate and copy.</span>,
+      password: (
+        <span class="text-success inline">
+          Click here to generate and copy.
+        </span>
+      ),
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,8 +31,8 @@ export default class CustomizeGeneration extends Component {
     });
   }
 
-  handleCopy(){
-    navigator.clipboard.writeText(this.state.password)
+  handleCopy() {
+    navigator.clipboard.writeText(this.state.password);
   }
 
   render() {
@@ -36,8 +40,8 @@ export default class CustomizeGeneration extends Component {
       <div class="card">
         <div class="card-header">
           <h6>Customize password generation.</h6>
-          Please specify password length and other requirements, then click
-          the area below to start and copy generated password.
+          Please specify password length and other requirements, then click the
+          area below to start and copy generated password.
         </div>
         <div class="row">
           <div class="col-3 mt-2 ms-3 align-items-center">
@@ -114,17 +118,20 @@ export default class CustomizeGeneration extends Component {
           type="button card"
           class="list-group-item list-group-item-action"
           onClick={() =>
-            this.setState({
-              password: generator.generate({
-                length: this.state.p_length,
-                numbers: this.state.p_numbers,
-                symbols: this.state.p_symbols,
-                strict: this.state.p_strict,
-                uppercase: this.state.p_uppercase,
-              })
-            },
-            this.handleCopy)
-          }>
+            this.setState(
+              {
+                password: generator.generate({
+                  length: this.state.p_length,
+                  numbers: this.state.p_numbers,
+                  symbols: this.state.p_symbols,
+                  strict: this.state.p_strict,
+                  uppercase: this.state.p_uppercase,
+                }),
+              },
+              this.handleCopy
+            )
+          }
+        >
           {this.state.password}
         </button>
       </div>

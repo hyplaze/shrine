@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import logo from "../../Assets/logo.png";
 import "../../index.css";
 import axios from "../../axios/axiosConfig";
-import {withRouter} from "react-router-dom"
+import { withRouter } from "react-router-dom";
 
 class NavBar extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class NavBar extends Component {
     this.logoutHandler = this.logoutHandler.bind(this);
   }
 
-  async logoutHandler(){
+  async logoutHandler() {
     const response = await axios({
       method: "post",
       url: "/logout",
@@ -30,9 +30,11 @@ class NavBar extends Component {
     }
   }
   render = () => {
-    let home = this.state.page === "HomePage" ? "nav-link active" : "nav-link"
-    let generator = this.state.page === "GeneratorPage" ? "nav-link active" : "nav-link"
-    let checker = this.state.page === "CheckerPage" ? "nav-link active" : "nav-link"
+    let home = this.state.page === "HomePage" ? "nav-link active" : "nav-link";
+    let generator =
+      this.state.page === "GeneratorPage" ? "nav-link active" : "nav-link";
+    let checker =
+      this.state.page === "CheckerPage" ? "nav-link active" : "nav-link";
 
     return (
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -88,7 +90,9 @@ class NavBar extends Component {
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <p class="dropdown-item">Hanry</p>
+                    <p class="dropdown-item">
+                      {localStorage.getItem("email").split("@")[0]}
+                    </p>
                   </li>
                   <li>
                     <hr class="dropdown-divider" />
@@ -110,7 +114,7 @@ class NavBar extends Component {
         </div>
       </nav>
     );
-  }
+  };
 }
 
 export default withRouter(NavBar);

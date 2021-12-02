@@ -34,6 +34,7 @@ function LoginPage() {
     const resCookie = resData.cookie; //response cookie
     localStorage.setItem("cookie", resCookie);
     localStorage.setItem("stretchedMasterKey", stretchedMasterKey);
+    localStorage.setItem("email", email);
     if (resStatus) {
       // localStorage.setItem("token", data.user); local storage, this is Hanry's stuff
       console.log("Login successful");

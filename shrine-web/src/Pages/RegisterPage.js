@@ -15,7 +15,7 @@ function RegisterPage() {
   async function registerUser(event) {
     event.preventDefault();
     if (email === "" || password === "") {
-      setPassword("")
+      setPassword("");
       setShowPassword(false);
       alert("Please enter your email and password");
       return;
@@ -23,8 +23,6 @@ function RegisterPage() {
     const credential = await genCredential(email, password);
     const stretchedMasterKey = credential[0];
     const mph = credential[1];
-    console.log("smk:", stretchedMasterKey);
-    console.log("mph:", mph);
     const response = await axios({
       method: "post",
       url: "/register",
@@ -37,21 +35,19 @@ function RegisterPage() {
     const resData = response.data;
     const resStatus = Boolean(resData.Status);
 
-    console.log(response);
-
     if (resStatus) {
       history.push("/login");
       setShowPassword(false);
     } else {
-      setPassword("")
+      setPassword("");
       setShowPassword(false);
       alert("User already exist.");
     }
   }
 
-  const handleShowPassword = (e) =>{
+  const handleShowPassword = (e) => {
     setShowPassword(!showPassword);
-  }
+  };
 
   return (
     <div class="container-fluid vh-100">
@@ -60,7 +56,11 @@ function RegisterPage() {
           <div class="row justify-content-center">
             <img src={logo} class="h-25 w-25" />
           </div>
-          <form onSubmit={(e)=>{e.preventDefault();}}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
                 Email
@@ -77,53 +77,53 @@ function RegisterPage() {
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label">
-                Password
-              </label>
+              <label class="form-label">Password</label>
               <div class="input-group mb-3">
-              <input
-                type={showPassword ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-                class="form-control"
-                id="exampleInputPassword1"
-                value={password}
-              />
-              <button class="btn btn-outline-primary" 
-                  onClick={handleShowPassword}>
-                    {showPassword ? "hide" : "show"}
-                  </button>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  value={password}
+                />
+                <button
+                  class="btn btn-outline-primary"
+                  onClick={handleShowPassword}
+                >
+                  {showPassword ? "hide" : "show"}
+                </button>
               </div>
             </div>
-          
+
             <div class="justify-content-between d-flex">
-              <div
-                class="btn-group"
-                role="group"
-              >
+              <div class="btn-group" role="group">
                 <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/login");
-              history.go();
-            }}
-          >
-            Registered? Log In
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            onClick={() => {
-              history.push("/");
-              history.go();
-              setShowPassword(false);
-            }}
-          >
-            About
-          </button>
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onClick={() => {
+                    history.push("/login");
+                    history.go();
+                  }}
+                >
+                  Registered? Log In
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  onClick={() => {
+                    history.push("/");
+                    history.go();
+                    setShowPassword(false);
+                  }}
+                >
+                  About
+                </button>
               </div>
-              <button type="botton" class="btn btn-outline-primary"
-              onClick={registerUser}>
+              <button
+                type="botton"
+                class="btn btn-outline-primary"
+                onClick={registerUser}
+              >
                 Sign Up
               </button>
             </div>

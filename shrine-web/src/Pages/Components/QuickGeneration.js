@@ -6,13 +6,15 @@ export default class QuickGeneration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: <span class="text-success"> Click here to generate and copy.</span>,
+      password: (
+        <span class="text-success"> Click here to generate and copy.</span>
+      ),
     };
     this.handleCopy = this.handleCopy.bind(this);
   }
 
-  handleCopy(){
-    navigator.clipboard.writeText(this.state.password)
+  handleCopy() {
+    navigator.clipboard.writeText(this.state.password);
   }
 
   render() {
@@ -30,14 +32,17 @@ export default class QuickGeneration extends Component {
             type="button card"
             class="list-group-item list-group-item-action"
             onClick={() =>
-              this.setState({
-                password: generator.generate({
-                  length: 8,
-                  numbers: true,
-                  symbols: true,
-                  strict: true,
-                }),
-              },this.handleCopy)
+              this.setState(
+                {
+                  password: generator.generate({
+                    length: 8,
+                    numbers: true,
+                    symbols: true,
+                    strict: true,
+                  }),
+                },
+                this.handleCopy
+              )
             }
           >
             <div class="card-body">

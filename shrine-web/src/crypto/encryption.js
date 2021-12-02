@@ -3,7 +3,6 @@ import { encode, decode } from "base64-arraybuffer";
 const IV_LENGTH = 12;
 
 const encrypt = async (data, stretchedMasterKeyBits) => {
-  console.log("Encrypting data...", data);
   data = decode(btoa(unescape(encodeURIComponent(data))));
   const stretchedMasterKey = await window.crypto.subtle.importKey(
     "raw",
@@ -12,7 +11,6 @@ const encrypt = async (data, stretchedMasterKeyBits) => {
     false,
     ["encrypt"]
   );
-  console.log("stretchedMasterKey in encrypt", stretchedMasterKey);
   const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
   const encryptedContent = await window.crypto.subtle.encrypt(
     {
@@ -46,11 +44,9 @@ const decrypt = async (encryptedData, stretchedMasterKeyBits) => {
     false,
     ["decrypt"]
   );
-  console.log("stretchedMasterKey in decrypt", stretchedMasterKey);
   const encryptedPackage = new Uint8Array(decode(encryptedData));
   const iv = encryptedPackage.slice(0, IV_LENGTH);
   const encryptedBytes = encryptedPackage.slice(IV_LENGTH);
-  console.log("encryptedBytes", encryptedBytes);
   const decrypted = await window.crypto.subtle.decrypt(
     {
       name: "AES-GCM",
@@ -58,7 +54,7 @@ const decrypt = async (encryptedData, stretchedMasterKeyBits) => {
       // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
       tagLength: 128, //The tagLength you used to encrypt (if any)
     },
-    await stretchedMasterKey, //from generateKey or importKey above
+    stretchedMasterKey, //from generateKey or importKey above
     encryptedBytes //ArrayBuffer of the data
   );
   return decodeURIComponent(escape(atob(encode(decrypted))));
