@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import logo from "./../Assets/logo.png";
 import { genCredential } from "../crypto/credential";
 
-//const axios = require("axios"); //this is for axios intellisense
 import axios from "../axios/axiosConfig";
 
 function LoginPage() {

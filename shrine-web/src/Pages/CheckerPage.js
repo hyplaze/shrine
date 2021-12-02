@@ -2,7 +2,6 @@ import { Component } from "react";
 import NavBar from "./Components/NavBar";
 import { decrypt } from "../crypto/encryption"
 import axios from "../axios/axiosConfig"
-// const axios = require('axios').default;
 const sha1 = require('js-sha1');
 
 

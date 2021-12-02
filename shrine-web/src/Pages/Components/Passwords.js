@@ -3,7 +3,6 @@ import { Modal, Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
 import axios from "../../axios/axiosConfig";
-// import AddPasswordModal from "./AddPasswordModal";
 
 import { encrypt, decrypt } from "../../crypto/encryption";
 

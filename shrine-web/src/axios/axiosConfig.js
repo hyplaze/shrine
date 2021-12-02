@@ -1,7 +1,7 @@
-import axios from "axios"
+import axios from "axios";
+require("dotenv").config();
 
 export default axios.create({
-	baseURL: "http://localhost:3000/",
-})
-
-// axios.defaults.baseURL = "http://localhost:1337";
+  baseURL: process.env.REACT_APP_BACKEND_HOST,
+  //"http://localhost:3000/",
+});
