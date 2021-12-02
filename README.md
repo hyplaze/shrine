@@ -7,6 +7,8 @@
 
 Shrine is a web-based application that helps safely store and retrieve passwords with ease.
 
+Here's a [demo](https://shrine.hyplaze.com/) (may not be up-to-date).
+
 ## Features
 
 - Storing basic password infos: name, url, username, password, two factor authentication secret
@@ -45,6 +47,12 @@ npm start
 ```
 
 You can now access the web shrine in your browser at `http://localhost:3001`.
+
+## Deployment
+
+After successfully running app locally, follow instructions [here](https://create-react-app.dev/docs/deployment/). Follow the ["Other Solution"](https://create-react-app.dev/docs/deployment/#other-solutions) and ("Serving Apps with Client-Side Routing")[https://create-react-app.dev/docs/deployment/#serving-apps-with-client-side-routing] section.
+
+You can also use the "deploy" branch.
 
 ## Contributers
 
