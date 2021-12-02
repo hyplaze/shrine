@@ -258,17 +258,6 @@ export default class Passwords extends Component {
                   </button>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">
-                  Notes
-                </label>
-                <textarea
-                  readOnly
-                  class="form-control"
-                  id="message-text"
-                  value={this.state.entryInModal.notes}
-                ></textarea>
-              </div>
             </form>
           </Modal.Body>
           <Modal.Footer>
@@ -531,24 +520,6 @@ export default class Passwords extends Component {
                     Copy
                   </button>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">
-                  Notes
-                </label>
-                <textarea
-                  class="form-control"
-                  id="message-text"
-                  onChange={(e) => {
-                    this.setState({
-                      entryInModal: {
-                        ...this.state.entryInModal,
-                        notes: e.target.value,
-                      },
-                    });
-                  }}
-                  value={this.state.entryInModal.notes}
-                ></textarea>
               </div>
             </form>
           </Modal.Body>
