@@ -1,0 +1,22 @@
+{
+  "name": "shrine_db",
+  "version": "1.0.0",
+  "description": "database for shrine project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.2.0",
+    "mongoose": "^6.0.13",
+    "moongoose": "0.0.5",
+    "mysql": "^2.18.1",
+    "nodeman": "^1.1.2"
+  }
+}
