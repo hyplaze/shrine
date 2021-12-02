@@ -57,6 +57,11 @@ function RegisterPage() {
             <img src={logo} class="h-25 w-25" />
           </div>
           <form
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                registerUser(e);
+              }
+            }}
             onSubmit={(e) => {
               e.preventDefault();
             }}

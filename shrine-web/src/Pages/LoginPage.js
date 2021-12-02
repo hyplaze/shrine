@@ -16,10 +16,6 @@ function LoginPage() {
     const credential = await genCredential(email, password);
     const stretchedMasterKey = credential[0];
     const mph = credential[1];
-    console.log("Email", email);
-    console.log("Password", password);
-    console.log("smk:", stretchedMasterKey);
-    console.log("mph", mph);
     const response = await axios({
       method: "post",
       url: "/login",
@@ -36,76 +32,86 @@ function LoginPage() {
     localStorage.setItem("stretchedMasterKey", stretchedMasterKey);
     localStorage.setItem("email", email);
     if (resStatus) {
-      // localStorage.setItem("token", data.user); local storage, this is Hanry's stuff
-      console.log("Login successful");
       window.location.href = "/home";
-        setShowPassword(false);
+      setShowPassword(false);
     } else {
-      setPassword("")
+      setPassword("");
       setShowPassword(false);
       alert("Please check your username and password");
     }
   }
 
-  const handleShowPassword = (e) =>{
+  const handleShowPassword = (e) => {
     setShowPassword(!showPassword);
-  }
-
-
+  };
 
   return (
     <div class="container-fluid vh-100">
       <div class="row justify-content-center align-items-center h-100">
         <div class="col-3">
-          <img src={logo} class="img-fluid d-flex" />
+          <img src={logo} alt="logo" class="img-fluid d-flex" />
         </div>
         <div class="col-3 mx-3">
           <h1>Log In</h1>
           <div class="row mt-3">
-          <form onSubmit={(e)=>{e.preventDefault();}}>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-                class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
-                Password
-              </label>
-              <div class="input-group mb-3">
-              <input
-                type={showPassword ? "text" : "password"}
-                onChange={(e) => setPassword(e.target.value)}
-                class="form-control"
-                id="exampleInputPassword1"
-                value={password}
-              />
-              <button class="btn btn-outline-primary" 
-                  onClick={handleShowPassword}>
+            <form
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  loginUser(event);
+                }
+              }}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">
+                  Password
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    onChange={(e) => setPassword(e.target.value)}
+                    class="form-control"
+                    id="exampleInputPassword1"
+                    value={password}
+                  />
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={handleShowPassword}
+                  >
                     {showPassword ? "hide" : "show"}
                   </button>
+                </div>
               </div>
-            </div>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic outlined example"
-            >
-              <button type="botton" class="btn btn-outline-primary"
-              onClick={loginUser}>
-                Log In
-              </button>
-            </div>
-          </form>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic outlined example"
+              >
+                <button
+                  type="botton"
+                  class="btn btn-outline-primary"
+                  onClick={loginUser}
+                >
+                  Log In
+                </button>
+              </div>
+            </form>
           </div>
-          
+
           <button
             type="button"
             class="btn btn-outline-primary"

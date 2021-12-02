@@ -15,7 +15,6 @@ async function getBreach() {
     },
   });
 
-  console.log(response.data);
   for (const item of response.data) {
     await checkBreach(item);
   }
@@ -27,12 +26,9 @@ async function getBreach() {
         localStorage.getItem("stretchedMasterKey")
       );
       const digest = sha1(decryptedPassword).toUpperCase();
-      console.log("password is " + item.password);
 
       const digestFront = digest.slice(0, 5);
       const digestEnd = digest.slice(-35);
-      console.log(digestFront);
-      console.log(digestEnd);
       const res = await axios.get(
         "https://api.pwnedpasswords.com/range/" + digestFront
       );
@@ -45,14 +41,12 @@ async function getBreach() {
         const pwnd_pair = i.split(":");
         if (pwnd_pair[0] == digestEnd) {
           pwnd_dict[item.boxname] = pwnd_pair[1];
-          console.log("I am here");
         }
       }
     }
   }
 
   const breaches = Object.keys(pwnd_dict).length;
-  console.log("breach are: " + breaches);
 }
 
 export default class CheckerPage extends Component {
