@@ -23,13 +23,11 @@ export default class Passwords extends Component {
     };
     this.handleOpenInspectModal = this.handleOpenInspectModal.bind(this);
     this.handleCloseInspectModal = this.handleCloseInspectModal.bind(this);
-    this.InspectModal = this.InspectModal.bind(this);
 
     this.handleOpenEditModal = this.handleOpenEditModal.bind(this);
     this.handleSaveAndCloseEditModal =
       this.handleSaveAndCloseEditModal.bind(this);
     this.handleCloseEditModal = this.handleCloseEditModal.bind(this);
-    this.EditModal = this.EditModal.bind(this);
     this.handleShowPassword = this.handleShowPassword.bind(this);
 
     this.countDown = this.countDown.bind(this);
@@ -103,171 +101,6 @@ export default class Passwords extends Component {
         twoFA: await computeTOTP(this.state.decryptedEntry.twoFA),
       },
     });
-  };
-
-  InspectModal = () => {
-    return (
-      <>
-        <Modal
-          show={this.state.showInspectModal}
-          onHide={this.handleCloseInspectModal}
-        >
-          <Modal.Header>
-            <Modal.Title>Inspect a box</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  Name
-                </label>
-                <div class="input-group mb-3">
-                  <input
-                    readOnly
-                    type="text"
-                    class="form-control"
-                    id="recipient-name"
-                    value={this.state.entryInModal.boxname}
-                  ></input>
-                  <button
-                    class="btn btn-outline-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        this.state.entryInModal.boxname
-                      );
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  URL
-                </label>
-                <div class="input-group mb-3">
-                  <input
-                    readOnly
-                    type="text"
-                    class="form-control"
-                    id="recipient-name"
-                    value={this.state.entryInModal.url}
-                  ></input>
-                  <button
-                    class="btn btn-outline-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        this.state.entryInModal.url
-                      );
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  Username
-                </label>
-                <div class="input-group mb-3">
-                  <input
-                    readOnly
-                    type="text"
-                    class="form-control"
-                    id="recipient-name"
-                    value={this.state.entryInModal.username}
-                  ></input>
-                  <button
-                    class="btn btn-outline-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        this.state.entryInModal.username
-                      );
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  Password
-                </label>
-                <div class="input-group mb-3">
-                  <input
-                    readOnly
-                    type={this.state.showPassword ? "text" : "password"}
-                    class="form-control"
-                    id="recipient-name"
-                    value={this.state.entryInModal.password}
-                    onClick={this.handleShowPassword}
-                  ></input>
-                  <button
-                    class="btn btn-outline-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        this.state.entryInModal.password
-                      );
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-                <div class="form-text">
-                  {"Click on password to " +
-                    (this.state.showPassword ? "hide" : "show") +
-                    " password"}
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  2FA
-                </label>
-                <div class="input-group mb-3">
-                  <input
-                    readOnly
-                    type="text"
-                    class="form-control"
-                    id="recipient-name"
-                    value={
-                      this.state.entryInModal.twoFA +
-                      " (refresh in " +
-                      (30 -
-                        Math.floor(
-                          (Date.now() -
-                            Math.floor(Date.now() / 30000) * 30000) /
-                            1000
-                        )) +
-                      " seconds)"
-                    }
-                    onClick={this.handleUpdate2FA}
-                  ></input>
-                  <button
-                    class="btn btn-outline-primary"
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        this.state.entryInModal.twoFA
-                      );
-                    }}
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleCloseInspectModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
   };
 
   handleOpenEditModal = async (entry) => {
@@ -344,9 +177,86 @@ export default class Passwords extends Component {
     this.setState({ showPassword: false });
   };
 
-  EditModal = () => {
+  handleDelete = async (boxid) => {
+    const response = await axios({
+      method: "post",
+      url: "/deletebox",
+      data: {
+        cookie: localStorage.getItem("cookie"),
+        boxid: boxid,
+      },
+    });
+    if (response.data.Status === true) this.state.refresh();
+  };
+
+  render = () => {
     return (
-      <>
+      <div class="container-fluid">
+        <div class="d-grid">
+          <button
+            class="btn btn-primary mt-1"
+            onClick={async () => {
+              const entry = {};
+              entry.boxid = uuidv4();
+              await this.handleOpenEditModal(entry);
+            }}
+          >
+            Add a new Password
+          </button>
+        </div>
+        <ol class="list-group list-group-numbered mt-3">
+          {this.state.entries.map((entry) => {
+            return (
+              <div class="card border-grey mb-2">
+                <div class="row d-flex align-items-center">
+                  <div class="col-xxl-2 col-xl-3 col-lg-4">
+                    <div class="btn-group" role="group">
+                      <button
+                        class="btn btn-secondary"
+                        onClick={async () => {
+                          await this.handleOpenInspectModal(entry);
+                        }}
+                      >
+                        Inspect
+                      </button>
+                      <button
+                        class="btn btn-outline-primary"
+                        onClick={() => {
+                          this.handleOpenEditModal(entry);
+                        }}
+                      >
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-9 col-lg-8">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-5">
+                            <div class="fw-bold">{entry.boxname}</div>
+                          </div>
+                          <div class="col-5">{entry.url}</div>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          onClick={() => {
+                            this.handleDelete(entry.boxid);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </ol>
         <Modal
           show={this.state.showEditModal}
           onHide={this.handleCloseEditModal}
@@ -535,92 +445,164 @@ export default class Passwords extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-      </>
-    );
-  };
-
-  handleDelete = async (boxid) => {
-    const response = await axios({
-      method: "post",
-      url: "/deletebox",
-      data: {
-        cookie: localStorage.getItem("cookie"),
-        boxid: boxid,
-      },
-    });
-    if (response.data.Status === true) this.state.refresh();
-  };
-
-  render = () => {
-    return (
-      <div class="container-fluid">
-        <div class="d-grid">
-          <button
-            class="btn btn-primary mt-1"
-            onClick={async () => {
-              const entry = {};
-              entry.boxid = uuidv4();
-              await this.handleOpenEditModal(entry);
-            }}
-          >
-            Add a new Password
-          </button>
-        </div>
-        <ol class="list-group list-group-numbered mt-3">
-          {this.state.entries.map((entry) => {
-            return (
-              <div class="card border-grey mb-2">
-                <div class="row d-flex align-items-center">
-                  <div class="col-xxl-2 col-xl-3 col-lg-4">
-                    <div class="btn-group" role="group">
-                      <button
-                        class="btn btn-secondary"
-                        onClick={async () => {
-                          await this.handleOpenInspectModal(entry);
-                        }}
-                      >
-                        Inspect
-                      </button>
-                      <button
-                        class="btn btn-outline-primary"
-                        onClick={() => {
-                          this.handleOpenEditModal(entry);
-                        }}
-                      >
-                        Change
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-xxl-10 col-xl-9 col-lg-8">
-                    <div class="row">
-                      <div class="col-10">
-                        <div class="row">
-                          <div class="col-5">
-                            <div class="fw-bold">{entry.boxname}</div>
-                          </div>
-                          <div class="col-5">{entry.url}</div>
-                        </div>
-                      </div>
-                      <div class="col-2">
-                        <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          onClick={() => {
-                            this.handleDelete(entry.boxid);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+        <Modal
+          show={this.state.showInspectModal}
+          onHide={this.handleCloseInspectModal}
+        >
+          <Modal.Header>
+            <Modal.Title>Inspect a box</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">
+                  Name
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.boxname}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.boxname
+                      );
+                    }}
+                  >
+                    Copy
+                  </button>
                 </div>
               </div>
-            );
-          })}
-        </ol>
-        <this.EditModal />
-        <this.InspectModal />
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">
+                  URL
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.url}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.url
+                      );
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">
+                  Username
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.username}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.username
+                      );
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">
+                  Password
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type={this.state.showPassword ? "text" : "password"}
+                    class="form-control"
+                    id="recipient-name"
+                    value={this.state.entryInModal.password}
+                    onClick={this.handleShowPassword}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.password
+                      );
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+                <div class="form-text">
+                  {"Click on password to " +
+                    (this.state.showPassword ? "hide" : "show") +
+                    " password"}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">
+                  2FA
+                </label>
+                <div class="input-group mb-3">
+                  <input
+                    readOnly
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    value={
+                      this.state.entryInModal.twoFA +
+                      " (refresh in " +
+                      (30 -
+                        Math.floor(
+                          (Date.now() -
+                            Math.floor(Date.now() / 30000) * 30000) /
+                            1000
+                        )) +
+                      " seconds)"
+                    }
+                    onClick={this.handleUpdate2FA}
+                  ></input>
+                  <button
+                    class="btn btn-outline-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        this.state.entryInModal.twoFA
+                      );
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleCloseInspectModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   };

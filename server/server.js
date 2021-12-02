@@ -6,11 +6,18 @@ const user = require("./models/user");
 const website = require("./models/website");
 const routes = require("./routes/routes");
 const bodyParser = require("body-parser");
+const path = require("path");
 require("dotenv").config();
 //Set up default mongoose connection
 
 const app = express();
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //online remote database: mlab
 const db_url = process.env.DB_URL;
