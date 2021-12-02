@@ -640,11 +640,11 @@ export default class Passwords extends Component {
                       </button>
                     </div>
                   </div>
-                  <div class="col-xxl-9 col-xl-8 col-lg-7">
+                  <div class="col-xxl-10 col-xl-9 col-lg-8">
                     <div class="row">
-                      <div class="col-4">
+                      <div class="col-10">
                         <div class="row">
-                          <div class="col-7">
+                          <div class="col-5">
                             <div class="fw-bold">
                               {entry.boxname}
                             </div>
@@ -654,19 +654,22 @@ export default class Passwords extends Component {
                           </div>
                         </div>
                       </div>
+                      <div class="col-2">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            onClick={() => {
+                              this.handleDelete(entry.boxid);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        
+                      </div>
                     </div>
+                    
                   </div>
-                  <div class="col-1">
-                    <button
-                      type="button"
-                      class="btn btn-outline-danger"
-                      onClick={() => {
-                        this.handleDelete(entry.boxid);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
+            
                 </div>
               </div>
             );

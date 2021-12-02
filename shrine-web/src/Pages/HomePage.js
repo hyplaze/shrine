@@ -92,7 +92,7 @@ const HomePage = () => {
       <div class="row mt-3">
         <div class="col-3">
           <div class="card border-grey">
-            <h2 class="m-2 p-1">Welcome, Bitch.</h2>
+            <h3 class="m-2 p-1">Welcome to Shrine!</h3>
           </div>
           <div class="list-group m-1">
             <form class="d-flex mt-2">
