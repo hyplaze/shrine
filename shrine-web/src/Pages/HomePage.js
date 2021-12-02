@@ -56,30 +56,8 @@ const HomePage = () => {
   }, [textInput]);
 
   useEffect(() => {
-    async function checkLogin() {
-      const response = await axios({
-        method: "post",
-        url: "/validcookie",
-        data: {
-          cookie: localStorage.getItem("cookie"),
-          email: localStorage.getItem("email"),
-        },
-      });
-      if (
-        !(
-          localStorage.getItem("cookie") &&
-          localStorage.getItem("stretchedMasterKey") &&
-          response.data.Status === true
-        )
-      ) {
-        localStorage.clear();
-        history.replace("/login");
-      } else {
-        retrieveBoxesIndex();
-      }
-    }
-    checkLogin();
-  }, [history]);
+    retrieveBoxesIndex();
+  });
 
   return (
     <div class="container-fluid">

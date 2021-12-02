@@ -29,6 +29,28 @@ class NavBar extends Component {
       this.props.history.go();
     }
   }
+
+  async componentDidMount() {
+    const response = await axios({
+      method: "post",
+      url: "/validcookie",
+      data: {
+        cookie: localStorage.getItem("cookie"),
+        email: localStorage.getItem("email"),
+      },
+    });
+    if (
+      !(
+        localStorage.getItem("cookie") &&
+        localStorage.getItem("stretchedMasterKey") &&
+        response.data.Status === true
+      )
+    ) {
+      localStorage.clear();
+      this.props.history.replace("/login");
+    }
+  }
+
   render = () => {
     let home = this.state.page === "HomePage" ? "nav-link active" : "nav-link";
     let generator =
@@ -91,7 +113,9 @@ class NavBar extends Component {
                 <ul class="dropdown-menu">
                   <li>
                     <p class="dropdown-item">
-                      {localStorage.getItem("email").split("@")[0]}
+                      {localStorage.getItem("email") === null
+                        ? ""
+                        : localStorage.getItem("email").split("@")[0]}
                     </p>
                   </li>
                   <li>
