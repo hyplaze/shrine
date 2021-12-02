@@ -21,18 +21,23 @@ Shrine is a web-based application that helps safely store and retrieve passwords
 
 - Node.js (tested on v16.13.0)
 - npm (tested on 8.1.0)
-- A local or remote MongoDB (currently provided in server, will be invalid in future release)
+- A local or remote MongoDB
+	For convenience, here's one: `mongodb+srv://randygu:water123@shrinedb.jedf9.mongodb.net/shrineDB?retryWrites=true&w=majority` with no guarantee.
 
 ### Run the app
 
-For local development, first start the server with:
+For local development, first provide the server with a working MongoDB url:
+navigate to [.env](./server/.env), change item "DB_URL"
+
+Then start the server with:
+
 ```shell
 cd server
 npm install
 npm start
 ```
 
-Then start the client:
+At last start the client:
 ```shell
 cd shrine-web
 npm install
