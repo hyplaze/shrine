@@ -9,6 +9,7 @@ import base32Decode from "base32-decode";
 */
 
 const computeHOTP = async (secret, counter) => {
+  if (secret.length === 0) return "NaN";
   // https://tools.ietf.org/html/rfc4226#section-5.1
   let formatCounter = (counter) => {
     let binStr = ("0".repeat(64) + counter.toString(2)).slice(-64);
