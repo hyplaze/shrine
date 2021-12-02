@@ -12,7 +12,6 @@ const HomePage = () => {
   const [textInput, setTextInput] = useState("");
   const [forceUpdate, setForceUpdate] = useState(0);
 
-
   const retrieveBoxesIndex = async () => {
     const response = await axios({
       method: "post",
@@ -65,29 +64,41 @@ const HomePage = () => {
   }, [textInput]);
 
   useEffect(() => {
-    console.log("cookie in localStorage:", localStorage.getItem("cookie"));
-    console.log(
-      "smk in localStorage",
-      localStorage.getItem("stretchedMasterKey")
-    );
-    if (
-      !(
-        localStorage.getItem("cookie") &&
+    async function checkLogin() {
+      console.log("cookie in localStorage:", localStorage.getItem("cookie"));
+      console.log(
+        "smk in localStorage",
         localStorage.getItem("stretchedMasterKey")
-      )
-    ) {
-      localStorage.clear();
-      history.replace("/login");
-    } else {
-      console.log("successfully have cookie and stretchedMasterKey");
-      retrieveBoxesIndex();
+      );
+      const response = await axios({
+        method: "post",
+        url: "/validcookie",
+        data: {
+          cookie: localStorage.getItem("cookie"),
+          email: localStorage.getItem("email"),
+        },
+      });
+      if (
+        !(
+          localStorage.getItem("cookie") &&
+          localStorage.getItem("stretchedMasterKey") &&
+          response.data.Status === true
+        )
+      ) {
+        localStorage.clear();
+        history.replace("/login");
+      } else {
+        console.log("successfully have cookie and stretchedMasterKey");
+        retrieveBoxesIndex();
+      }
     }
+    checkLogin();
   }, [history]);
 
   return (
     <div class="container-fluid">
       <div class="row">
-        <NavBar page="HomePage"/>
+        <NavBar page="HomePage" />
       </div>
       <div class="row mt-3">
         <div class="col-3">
@@ -103,17 +114,20 @@ const HomePage = () => {
                 value={textInput}
                 onChange={initiateSearch}
               />
-              <button
-                class="btn btn-outline-success"
-                type="submit"
-              >
+              <button class="btn btn-outline-success" type="submit">
                 Search
               </button>
             </form>
-            
           </div>
-          <p class="m-2"><em><small>Search your shrine with <strong>website name</strong>. The result will be shown in real time. You can 
-            <strong> copy</strong> an entry inside inspection window. </small></em></p>
+          <p class="m-2">
+            <em>
+              <small>
+                Search your shrine with <strong>website name</strong>. The
+                result will be shown in real time. You can
+                <strong> copy</strong> an entry inside inspection window.{" "}
+              </small>
+            </em>
+          </p>
         </div>
         <div class="col-9">
           <Passwords
