@@ -1,3 +1,1 @@
-# Shrine
-
-A shrine for all your passwords.
+ui-ux/README.md
