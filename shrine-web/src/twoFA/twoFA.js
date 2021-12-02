@@ -9,7 +9,9 @@ import base32Decode from "base32-decode";
 */
 
 const computeHOTP = async (secret, counter) => {
-  if (secret.length === 0 || secret.match(/[^\w]|_/g) !== null) return "NaN";
+  secret = secret.toUpperCase().replace(/\s/g, "");
+  const b32_regex = /^[A-Z2-7]*$/;
+  if (!(secret.length !== 0 && b32_regex.exec(secret))) return "NaN";
   // https://tools.ietf.org/html/rfc4226#section-5.1
   let formatCounter = (counter) => {
     let binStr = ("0".repeat(64) + counter.toString(2)).slice(-64);
