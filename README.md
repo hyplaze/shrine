@@ -48,9 +48,8 @@ You can now access the web shrine in your browser at `http://localhost:3001`.
 
 ## Contributers
 
-Shrine is a collaboration project for UCLA CS35L course. Team members:
-- Alan Yu
-- Chentyi Zhang
-- Randy Gu
-- Jin Zhang
-- Hanry Xu
+Shrine is a collaboration project for UCLA CS35L course.
+
+<a href="https://github.com/hyplaze/shrine/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hyplaze/shrine" />
+</a>
