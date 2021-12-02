@@ -54,12 +54,14 @@ function LoginPage() {
 
 
   return (
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-4 h100" style={{ paddingTop: "15%" }}>
-          <div class="row justify-content-center">
-            <img src={logo} class="h-25 w-25" alt="Responsive" />
-          </div>
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-3">
+          <img src={logo} class="img-fluid d-flex" />
+        </div>
+        <div class="col-3 mx-3">
+          <h1>Log In</h1>
+          <div class="row mt-3">
           <form onSubmit={(e)=>{e.preventDefault();}}>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
@@ -102,6 +104,8 @@ function LoginPage() {
               </button>
             </div>
           </form>
+          </div>
+          
           <button
             type="button"
             class="btn btn-outline-primary"

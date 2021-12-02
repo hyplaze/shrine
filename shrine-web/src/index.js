@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactDom from "react-dom";
-import "jquery";
-import "popper.js";
+
 import "bootstrap/dist/js/bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -11,8 +10,8 @@ import MainPage from "./Pages/MainPage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import GeneratorPage from "./Pages/GeneratorPage";
-import CheckerPage from "./Pages/CheckerPage";
 import NotFoundPage from "./Pages/NotFoundPage";
+import CheckerPage from "./Pages/CheckerPage";
 
 class App extends Component {
   render() {

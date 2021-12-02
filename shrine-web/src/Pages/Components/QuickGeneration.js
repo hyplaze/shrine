@@ -6,12 +6,7 @@ export default class QuickGeneration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: generator.generate({
-        length: 8,
-        numbers: true,
-        symbols: true,
-        strict: true,
-      }),
+      password: <span class="text-success"> Click here to generate and copy.</span>,
     };
     this.handleCopy = this.handleCopy.bind(this);
   }

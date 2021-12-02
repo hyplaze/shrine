@@ -55,11 +55,11 @@ function RegisterPage() {
   }
 
   return (
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div class="col-4 h100" style={{ paddingTop: "15%" }}>
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center h-100 align-items-center">
+        <div class="col-4">
           <div class="row justify-content-center">
-            <img src={logo} class="h-25 w-25" alt="Responsive" />
+            <img src={logo} class="h-25 w-25" />
           </div>
           <form onSubmit={(e)=>{e.preventDefault();}}>
             <div class="mb-3">
@@ -78,7 +78,7 @@ function RegisterPage() {
               </div>
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
+              <label class="form-label">
                 Password
               </label>
               <div class="input-group mb-3">
@@ -95,18 +95,13 @@ function RegisterPage() {
                   </button>
               </div>
             </div>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic outlined example"
-            >
-              <button type="botton" class="btn btn-outline-primary"
-              onClick={registerUser}>
-                Sign Up
-              </button>
-            </div>
-          </form>
-          <button
+          
+            <div class="justify-content-between d-flex">
+              <div
+                class="btn-group"
+                role="group"
+              >
+                <button
             type="button"
             class="btn btn-outline-primary"
             onClick={() => {
@@ -127,6 +122,13 @@ function RegisterPage() {
           >
             About
           </button>
+              </div>
+              <button type="botton" class="btn btn-outline-primary"
+              onClick={registerUser}>
+                Sign Up
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

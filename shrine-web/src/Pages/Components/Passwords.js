@@ -300,16 +300,16 @@ export default class Passwords extends Component {
         password:
           "password" in entry
             ? await decrypt(
-                entry.password,
-                localStorage.getItem("stretchedMasterKey")
-              )
+              entry.password,
+              localStorage.getItem("stretchedMasterKey")
+            )
             : "",
         twoFA:
           "twoFA" in entry
             ? await decrypt(
-                entry.twoFA,
-                localStorage.getItem("stretchedMasterKey")
-              )
+              entry.twoFA,
+              localStorage.getItem("stretchedMasterKey")
+            )
             : "",
       },
     });
@@ -387,7 +387,7 @@ export default class Passwords extends Component {
             >
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  Name
+                  Website Name
                 </label>
                 <div class="input-group mb-3">
                   <input
@@ -517,7 +517,7 @@ export default class Passwords extends Component {
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">
-                  2FA
+                  Two-Factor Authorization Code
                 </label>
                 <div class="input-group mb-3">
                   <input
@@ -597,93 +597,84 @@ export default class Passwords extends Component {
     // console.log("rendering");
     // console.log(this.state.entries);
     return (
-      <>
-        <button
-          class="list-group-item btn btn-outline-primary"
-          aria-current="true"
-          onClick={() => {
-            const entry = {};
-            entry.boxid = uuidv4();
-            this.handleOpenEditModal(entry);
-            console.log("open");
-          }}
-        >
-          Add a new Password
-        </button>
-        <div class="row" style={{ marginTop: "1%" }}>
-          <div class="col-9">
-            <ol class="list-group list-group-numbered">
-              {this.state.entries.map((entry) => {
-                return (
-                  <div class="card border-grey mb-3">
-                    <div class="row ms-2">
-                      <div class="col-4" style={{ paddingLeft: "2%" }}>
-                        <div class="list-group">
-                          <div class="fw-bold">{entry.boxname}</div>
-                          {entry.url}
+      <div class="container-fluid">
+        <div class="d-grid">
+          <button
+            class="btn btn-primary mt-1"
+            onClick={() => {
+              const entry = {};
+              entry.boxid = uuidv4();
+              this.handleOpenEditModal(entry);
+              console.log("open");
+            }}
+          >
+            Add a new Password
+          </button>
+        </div>
+        <ol class="list-group list-group-numbered mt-3">
+          {this.state.entries.map((entry) => {
+            return (
+              <div class="card border-grey mb-2">
+                <div class="row d-flex align-items-center">
+                  <div class="col-xxl-2 col-xl-3 col-lg-4">
+                    <div
+                      class="btn-group"
+                      role="group"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        onClick={async () => {
+                          console.log(entry);
+                          await this.handleOpenInspectModal(entry);
+                        }}
+                      >
+                        Inspect
+                      </button>
+                      <button
+                        class="btn btn-outline-primary"
+                        onClick={() => {
+                          this.handleOpenEditModal(entry);
+                        }}
+                      >
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-8 col-lg-7">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="row">
+                          <div class="col-7">
+                            <div class="fw-bold">
+                              {entry.boxname}
+                            </div>
+                          </div>
+                          <div class="col-5">
+                            {entry.url}
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        class="col-1"
-                        style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      ></div>
-                      <div
-                        class="col-1"
-                        style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      >
-                        <Button
-                          class="list-group-item list-group-item-action"
-                          aria-current="true"
-                          onClick={async () => {
-                            console.log(entry);
-                            await this.handleOpenInspectModal(entry);
-                          }}
-                        >
-                          Inspect
-                        </Button>
-                      </div>
-                      <div
-                        class="col-1"
-                        style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      ></div>
-                      <div
-                        class="col-2 "
-                        style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      >
-                        <Button
-                          class="list-group-item list-group-item-action"
-                          aria-current="true"
-                          onClick={() => {
-                            this.handleOpenEditModal(entry);
-                          }}
-                        >
-                          Edit
-                        </Button>
-                      </div>
-                      <div
-                        class="col-2"
-                        style={{ paddingTop: "1%", paddingLeft: "2%" }}
-                      >
-                        <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          onClick={() => {
-                            this.handleDelete(entry.boxid);
-                          }}
-                        >
-                          Delete
-                        </button>
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </ol>
-          </div>
-        </div>
+                  <div class="col-1">
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      onClick={() => {
+                        this.handleDelete(entry.boxid);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </ol>
         <this.EditModal />
         <this.InspectModal />
-      </>
+      </div>
     );
   };
 }
